@@ -264,3 +264,27 @@ function styleguide_image($image = 'vertical', $type = 'jpg') {
     return $filepath;
   }
 }
+
+/**
+ * Implements hook_system_theme_page_alter().
+ */
+function styleguide_system_themes_page_alter(&$theme_groups) {
+  if (!user_access('view style guides')) {
+    return;
+  }
+  foreach ($theme_groups as $group => $members) {
+    if (empty($group)) {
+      continue;
+    }
+    foreach ($members as $key => $theme) {
+      if (!styleguide_access_check($theme)) {
+        continue;
+      }
+      $theme_groups[$group][$key]->operations[] = array(
+        'title' => t('Style guide'),
+        'href' => 'admin/appearance/styleguide/' . $theme->name,
+        'attributes' => array('title' => t('Style guide for @theme', array('@theme' => $theme->info['name']))),
+      );
+    }
+  }
+}

@@ -1,0 +1,10 @@
+// $Id$
+
+CHANGELOG file for Style Guide.
+
+06-OCT-2010
+-- Adds hook_system_theme_page_alter().
+-- Adds new test items.
+
+05-OCT-2010
+-- Initial commit.
