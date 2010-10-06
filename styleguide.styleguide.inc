@@ -6,6 +6,20 @@
  */
 function styleguide_styleguide() {
   $items = array(
+    'a' => array(
+      'title' => 'Link',
+      'content' => l(styleguide_word(), 'node'),
+    ),
+    'em' => array(
+      'title' => 'Emphasis',
+      'tag' => 'em',
+      'content' => styleguide_word(),
+    ),
+    'strong' => array(
+      'title' => 'Strong',
+      'tag' => 'strong',
+      'content' => styleguide_word(),
+    ),
     'ul' => array(
       'title' => 'Unordered list',
       'theme' => 'item_list',
@@ -38,6 +52,16 @@ function styleguide_styleguide() {
     'text' => array(
       'title' => 'Text block',
       'content' => styleguide_paragraph(3),
+    ),
+    'image-horizontal' => array(
+      'title' => 'Image, horizontal',
+      'theme' => 'image',
+      'arguments' => array('path' => styleguide_image('horizontal'), 'alt' => t('My image'), 'title' => t('My image')),
+    ),
+    'image-vertical' => array(
+      'title' => 'Image, vertical',
+      'theme' => 'image',
+      'arguments' => array('path' => styleguide_image('vertical'), 'alt' => t('My image'), 'title' => t('My image')),
     ),
   );
   for ($i = 1; $i <=6; $i++) {

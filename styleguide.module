@@ -243,3 +243,24 @@ function styleguide_paragraph($size = 5) {
   }
   return $output;
 }
+
+/**
+ * Provide a default image for display.
+ *
+ * Images should be in the assets directory. The current images are
+ * (c) Ken Rickard and used by permission.
+ *
+ * @param $image
+ *   The name of the image. Will be prefixed with 'image-'.
+ * @param $type
+ *   The file type, (jpg, png, gif). Do not include a dot.
+ * @return
+ *    The Drupal path to the file.
+ */
+function styleguide_image($image = 'vertical', $type = 'jpg') {
+  $path = drupal_get_path('module', 'styleguide');
+  $filepath = $path . '/assets/image-' . $image . '.' . $type;
+  if (file_exists($filepath)) {
+    return $filepath;
+  }
+}
