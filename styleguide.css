@@ -1,0 +1,18 @@
+/* $Id$ */
+
+h2.styleguide {
+  font-family: helvetica, arial, sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  background-color: #eee;
+  color: #666;
+  border: 1px solid #666;
+  margin: 3em 0 1em 0;
+  padding: 0.5em;
+}
+
+div.styleguide {
+  border-top: 1px solid #aaa;
+  margin: 1em 0 2em 0;
+  padding: 0;
+}
