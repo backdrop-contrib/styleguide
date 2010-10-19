@@ -2,6 +2,12 @@
 
 CHANGELOG file for Style Guide.
 
+19-OCT-2010
+-- README added (inadarei) and proofread (agentrickard).
+-- Adds group options to the API, cleaning the interface.
+-- Updates API documentation.
+-- Adds RTL css support.
+
 06-OCT-2010
 -- Adds hook_system_theme_page_alter().
 -- Adds new test items.

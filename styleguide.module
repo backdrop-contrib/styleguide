@@ -64,30 +64,47 @@ function styleguide_page($theme = NULL) {
   $active = $themes[$theme];
   $items = module_invoke_all('styleguide');
   drupal_alter('styleguide', $items);
-  $header = array();
+  $groups = array();
+  foreach ($items as $key => $item) {
+    if (!isset($item['group'])) {
+      $item['group'] = t('Common');
+    }
+    else {
+      $item['group'] = t('@group', array('@group' => $item['group']));
+    }
+    $item['title'] = t('@title', array('@title' => $item['title']));
+    $groups[$item['group']][$key] = $item;
+  }
+  ksort($groups);
   $output = '';
   $intro = '<h2>' . t('Showing style guide for %theme', array('%theme' => $active->info['name'])) . '</h2>';
   $intro .= '<h2 class="styleguide">'. t('Formatting guidelines') .'</h2>';
   $intro .= '<div class="styleguide">';
   $intro .= t('The header area indicates the style element being displayed. The horizontal rule indicates the top baseline of the rendered element.');
   $intro .= '</div>';
-  foreach ($items as $key => $item) {
-    $output .= "<a name=\"$key\"></a>";
-    $header[] = l($item['title'], $_GET['q'], array('fragment' => $key));
-    $output .= '<h2 class="styleguide">'. t($item['title']) .'</h2>';
-    $output .= '<div class="styleguide">';
-    if (isset($item['theme'])) {
-      $output .= theme($item['theme'], $item['variables']);
+  $head = '<div id="styleguide-header">';
+  $header = array();
+  foreach ($groups as $group => $elements) {
+    foreach ($elements as $key => $item) {
+      $header[$group][] = l($item['title'], $_GET['q'], array('fragment' => $key));
+      $output .= "<a name=\"$key\"></a>";
+      $output .= '<h2 class="styleguide">'. t($item['title']) .'</h2>';
+      $output .= '<div class="styleguide">';
+      if (isset($item['theme'])) {
+        $output .= theme($item['theme'], $item['variables']);
+      }
+      else if (isset($item['tag']) && isset($item['content'])) {
+        $output .= '<' . $item['tag'] . '>' . $item['content'] . '</' . $item['tag'] . '>';
+      }
+      else if (isset($item['content'])) {
+        $output .= $item['content'];
+      }
+      $output .= '</div>';
     }
-    else if (isset($item['tag']) && isset($item['content'])) {
-      $output .= '<' . $item['tag'] . '>' . $item['content'] . '</' . $item['tag'] . '>';
-    }
-    else if (isset($item['content'])) {
-      $output .= $item['content'];
-    }
-    $output .= '</div>';
+    $head .= theme('item_list', array('items' => $header[$group], 'title' => t($group)));
   }
-  return $intro . theme('item_list', array('items' => $header, 'title' => t('Elements'))) . $output;
+  $head .= '<div class="break"><br /></div></div>';
+  return $intro . $head . $output;
 }
 
 /**
