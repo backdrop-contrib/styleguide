@@ -19,8 +19,9 @@
  *   -- 'variables' (optional). An array of named vairables to pass to the
  *    theme function. This structure is designed to let you test your theme
  *    functions for syntax.
- *   -- 'content' (optional). A string of content to present. May be used
- *    in conjunction with a 'tag' element, or used instead of a theme callback.
+ *   -- 'content' (optional). A string or renderable array of content to
+ *    present. May be used in conjunction with a 'tag' element, or used instead
+ *    of a theme callback.
  *   -- 'tag' (optional). A string indicating a valid HTML tag (wihout <>).
  *    This tag will be wrapped around the content.
  *   -- TODO: 'attributes' for a tag element.

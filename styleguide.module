@@ -5,26 +5,34 @@
  * Implements hook_menu().
  */
 function styleguide_menu() {
-  $items = array();
   $items['admin/appearance/styleguide'] = array(
     'title' => 'Style guide',
     'page callback' => 'styleguide_page',
-    'type' => MENU_LOCAL_TASK,
     'weight' => 40,
     'access arguments' => array('view style guides'),
   );
   foreach (list_themes() as $theme) {
+    $is_default = $theme->name == variable_get('theme_default', 'bartik');
     $items['admin/appearance/styleguide/' . $theme->name] = array(
       'title' => $theme->info['name'],
       'page callback' => 'styleguide_page',
       'page arguments' => array($theme->name),
-      'type' => ($theme->name == variable_get('theme_default', 'bartik')) ? MENU_DEFAULT_LOCAL_TASK : MENU_LOCAL_TASK,
+      'type' => $is_default ? MENU_DEFAULT_LOCAL_TASK : MENU_LOCAL_TASK,
       'access callback' => 'styleguide_access_check',
       'access arguments' => array($theme),
-      'weight' => ($theme->name == variable_get('theme_default', 'bartik')) ? -10 : 0,
+      'weight' => $is_default ? -10 : 0,
+      'theme callback' => '_styleguide_page_theme',
+      'theme arguments' => array($theme->name),
     );
   }
   return $items;
+}
+
+/**
+ * Theme callback for the styleguide pages.
+ */
+function _styleguide_page_theme($theme) {
+  return $theme;
 }
 
 /**
@@ -70,7 +78,7 @@ function styleguide_page($theme = NULL) {
   $active = $themes[$theme];
 
   // Get visual testing elements.
-  $items = module_invoke_all('styleguide');  
+  $items = module_invoke_all('styleguide');
   drupal_alter('styleguide', $items);
 
   // Get theme style information.
@@ -117,6 +125,10 @@ function styleguide_page($theme = NULL) {
         $output .= '</p>';
       }
       $output .= '<div class="styleguide">';
+      // Support a renderable array for content.
+      if (isset($item['content']) && is_array($item['content'])) {
+        $item['content'] = drupal_render($item['content']);
+      }
       if (isset($item['theme'])) {
         $output .= theme($item['theme'], $item['variables']);
       }
@@ -135,23 +147,6 @@ function styleguide_page($theme = NULL) {
   $head .= '</div>';
   // Return the page.
   return $intro . $head . $output;
-}
-
-/**
- * Implements hook_custom_theme().
- */
-function styleguide_custom_theme() {
-  // Allow the admin theme and other custom themes to be retained.
-  $item = menu_get_item();
-  if ($item['page_callback'] != 'styleguide_page') {
-    return;
-  }
-  if (!empty($item['page_arguments'])) {
-    return current($item['page_arguments']);
-  }
-  else {
-    return variable_get('theme_default', 'bartik');
-  }
 }
 
 /**
@@ -244,7 +239,7 @@ Cras vestibulum lacus sit amet sem commodo ullamcorper aliquet eros vestibulum. 
 
 Curabitur dapibus odio quis enim hendrerit eu placerat lorem accumsan. Phasellus sagittis, orci vel laoreet molestie, urna orci imperdiet elit, quis ultricies orci mauris vel ante. Cras pharetra, nisl a sagittis feugiat, turpis magna placerat sem, sed euismod erat elit in magna. Phasellus blandit ullamcorper diam vel porta. Vivamus mollis, metus nec tincidunt venenatis, risus odio sodales risus, vitae ultrices est nisi eget ante. Aenean eget nisi mi. Nulla non nulla nec metus rhoncus congue. Curabitur quis nunc nibh. Cras metus lorem, euismod ornare mattis sagittis, ultrices eget turpis. Integer quis dui tellus. Morbi vel dolor sit amet metus eleifend fringilla. Fusce nunc neque, ultricies et commodo semper, dignissim vitae tortor. Phasellus et ipsum quis sapien accumsan auctor. Morbi congue nulla vel tortor aliquet imperdiet. Morbi eget odio elit, et cursus odio. Quisque a velit diam. Duis urna libero, tempus non mattis a, convallis ac erat. Etiam vel dui posuere lectus auctor viverra vitae id eros. Maecenas mollis eros non elit sollicitudin quis fermentum diam lacinia. Quisque at ante nibh, a molestie ligula.
 
-Sed et enim nunc, nec vehicula sem. Sed risus orci, auctor et dictum at, hendrerit eu augue. Curabitur sed ante non quam fermentum vehicula. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tincidunt dictum molestie. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus nec urna ut lorem tempus aliquet eget nec lectus. Phasellus quis venenatis tortor. Integer elementum, sapien at feugiat cursus, tortor sapien adipiscing massa, non molestie elit lacus vel velit. Suspendisse sit amet sem id libero auctor pharetra sit amet ut dui. Aenean sit amet tellus sit amet ante congue faucibus. Nullam hendrerit, justo et iaculis tristique, ligula risus pretium erat, sed tempus lacus felis ut nulla. 
+Sed et enim nunc, nec vehicula sem. Sed risus orci, auctor et dictum at, hendrerit eu augue. Curabitur sed ante non quam fermentum vehicula. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tincidunt dictum molestie. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus nec urna ut lorem tempus aliquet eget nec lectus. Phasellus quis venenatis tortor. Integer elementum, sapien at feugiat cursus, tortor sapien adipiscing massa, non molestie elit lacus vel velit. Suspendisse sit amet sem id libero auctor pharetra sit amet ut dui. Aenean sit amet tellus sit amet ante congue faucibus. Nullam hendrerit, justo et iaculis tristique, ligula risus pretium erat, sed tempus lacus felis ut nulla.
 EOT;
   if (!$punctuation) {
     $text = str_replace(array(',', '.'), '', $text);
@@ -520,4 +515,3 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
   }
   return $form;
 }
-
