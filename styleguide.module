@@ -100,7 +100,7 @@ function styleguide_page($theme = NULL) {
   $intro .= '<div class="styleguide">';
   $intro .= t('The header area indicates the style element being displayed. The horizontal rules indicate the top and bottom baselines of the rendered element.');
   $intro .= '</div>';
-  $intro .= '<div class="break"><br /></div></div>';
+  $intro .= '<div class="break"><br /></div>';
 
   // Create a navigation header.
   $head = '<div id="styleguide-header">';
@@ -131,7 +131,8 @@ function styleguide_page($theme = NULL) {
     $head .= theme('item_list', array('items' => $header[$group], 'title' => t($group)));
   }
   // Close the header.
-  $head .= '<div class="break"><br /></div></div>';
+  $head .= '<div class="break"><br /></div>';
+  $head .= '</div>';
   // Return the page.
   return $intro . $head . $output;
 }
