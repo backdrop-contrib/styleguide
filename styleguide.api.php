@@ -28,6 +28,8 @@
  *    Groups are organized within the preview interface. If no group is
  *    provided, the item will be assigned to the 'Common' group. This value
  *    will be passed to t() automatically.
+ *   -- 'description' (optional). A short description of the item. This value will
+ *    will be passed to t() automatically.
  *
  * @return $items
  *   An array of items to render.
@@ -44,6 +46,7 @@ function hook_styleguide() {
       'title' => 'Text block',
       'content' => styleguide_paragraph(3),
       'group' => 'Text',
+      'description' => 'A block of three paragraphs',
     ),
     'h1' => array(
       'title' => 'Text block',
@@ -57,4 +60,42 @@ function hook_styleguide() {
 }
 
 /**
- * 
+ * Alter styleguide elements.
+ *
+ * @param &$items
+ *   An array of items to be rendered.
+ *
+ * @return
+ *   No return value. Modify $items by reference.
+ *
+ * @see hook_styleguide()
+ */
+function hook_styleguide_alter(&$items) {
+  // Add a class to the text test.
+  $items['text']['content'] = '<div class="mytestclass">' . $items['text']['content'] . '</div>';
+  // Remove the headings tests.
+  unset($items['headings']);
+}
+
+/**
+ * Alter display information about a theme for Style Guide.
+ *
+ * This function accepts the 'info' property of a $theme object. Currently,
+ * only the 'description' element of the $theme_info array is used by
+ * Style Guide.
+ *
+ * Note that the 'description' element will be run through t() automatically.
+ *
+ * @param &$theme_info
+ *   Theme information array.
+ * @param $theme
+ *   The machine name of this theme.
+ *
+ * @return
+ *   No return value. Modify $theme_info by reference.
+ */
+function styleguide_styleguide_theme_info_alter(&$theme_info, $theme) {
+  if ($theme == 'stark') {
+    $theme_info['description'] = 'A basic theme for development.';
+  }
+}

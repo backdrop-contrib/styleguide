@@ -57,13 +57,26 @@ function styleguide_access_check($theme) {
  */
 function styleguide_page($theme = NULL) {
   drupal_add_css(drupal_get_path('module', 'styleguide') . '/styleguide.css');
+
+  // TODO: notice about the Overlay module?
+
+  // Check the theme.
   if (is_null($theme)) {
     $theme = variable_get('theme_default', 'bartik');
   }
+
+  // Get theme data.
   $themes = list_themes();
   $active = $themes[$theme];
-  $items = module_invoke_all('styleguide');
+
+  // Get visual testing elements.
+  $items = module_invoke_all('styleguide');  
   drupal_alter('styleguide', $items);
+
+  // Get theme style information.
+  $theme_info = $active->info;
+  drupal_alter('styleguide_theme_info', $theme_info, $theme);
+
   $groups = array();
   foreach ($items as $key => $item) {
     if (!isset($item['group'])) {
@@ -76,19 +89,33 @@ function styleguide_page($theme = NULL) {
     $groups[$item['group']][$key] = $item;
   }
   ksort($groups);
+  // Set the output.
   $output = '';
   $intro = '<h2>' . t('Showing style guide for %theme', array('%theme' => $active->info['name'])) . '</h2>';
-  $intro .= '<h2 class="styleguide">'. t('Formatting guidelines') .'</h2>';
+  if (isset($theme_info['description'])) {
+    $intro .= '<p>' . t('!info', array('!info' => $theme_info['description'])) . '</p>';
+  }
+  $intro .= '<h2 class="styleguide">'. t('Styleguide element entries') .'</h2>';
+  $intro .= '<p class="styleguide-description">' . t('Optional item description.') . '</p>';
   $intro .= '<div class="styleguide">';
-  $intro .= t('The header area indicates the style element being displayed. The horizontal rule indicates the top baseline of the rendered element.');
+  $intro .= t('The header area indicates the style element being displayed. The horizontal rules indicate the top and bottom baselines of the rendered element.');
   $intro .= '</div>';
+  $intro .= '<div class="break"><br /></div></div>';
+
+  // Create a navigation header.
   $head = '<div id="styleguide-header">';
   $header = array();
+  // Process the elements, by group.
   foreach ($groups as $group => $elements) {
     foreach ($elements as $key => $item) {
       $header[$group][] = l($item['title'], $_GET['q'], array('fragment' => $key));
       $output .= "<a name=\"$key\"></a>";
       $output .= '<h2 class="styleguide">'. t($item['title']) .'</h2>';
+      if (!empty($item['description'])) {
+        $output .= '<p class="styleguide-description">';
+        $output .= t('!description', array('!description' => $item['description']));
+        $output .= '</p>';
+      }
       $output .= '<div class="styleguide">';
       if (isset($item['theme'])) {
         $output .= theme($item['theme'], $item['variables']);
@@ -103,7 +130,9 @@ function styleguide_page($theme = NULL) {
     }
     $head .= theme('item_list', array('items' => $header[$group], 'title' => t($group)));
   }
+  // Close the header.
   $head .= '<div class="break"><br /></div></div>';
+  // Return the page.
   return $intro . $head . $output;
 }
 
@@ -325,7 +354,7 @@ function styleguide_sentence() {
 /**
  * Sample form, showing all elements.
  */
-function styleguide_form($form, &$form_state, $form_key = NULL) {
+function styleguide_form($form, &$form_state, $form_keys = array()) {
   $form = array();
   $options = array();
   $list = styleguide_list();
@@ -456,10 +485,6 @@ function styleguide_form($form, &$form_state, $form_key = NULL) {
   foreach ($fieldsets as $fieldset) {
     $form['vertical_tabs'][$fieldset] = $form[$fieldset];
   }
-  $form['item-0'] = array(
-    '#type' => 'item',
-    '#title' => t('Markup'),
-  );
   $form['markup'] = array(
     '#markup' => t('<p><em>Markup</em>: Note that markup does not allow titles or descriptions. Use "item" for those options.</p>') . styleguide_paragraph(1),
   );
@@ -469,34 +494,28 @@ function styleguide_form($form, &$form_state, $form_key = NULL) {
     '#markup' => styleguide_paragraph(1),
     '#description' => styleguide_sentence(),
   );
-  $form['item-1'] = array(
-    '#type' => 'item',
-    '#title' => t('Image button'),
-  );
   $form['image_button'] = array(
     '#type' => 'image_button',
     '#src' => 'misc/druplicon.png',
     '#attributes' => array('height' => 20),
     '#name' => t('Image button'),
   );
-  $form['item-2'] = array(
-    '#type' => 'item',
-    '#title' => t('Submit'),
-  );
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Submit'),
-  );
-  $form['item-3'] = array(
-    '#type' => 'item',
-    '#title' => t('Button'),
   );
   $form['button'] = array(
     '#type' => 'button',
     '#value' => t('Button'),
   );
-  if (!is_null($form_key) && isset($form[$form_key])) {
-    return $form[$form_key];
+  if (!empty($form_keys)) {
+    $items = array();
+    foreach ($form_keys as $key) {
+      if (isset($form[$key])) {
+        $items[$key] = $form[$key];
+      }
+    }
+    return $items;
   }
   return $form;
 }

@@ -2,6 +2,15 @@
 
 CHANGELOG file for Style Guide.
 
+20-OCT-2010
+-- Adds bottom baseline to element displays.
+-- Adds more hook documentation.
+-- Adds optional element descriptions.
+-- Adds theme descriptions.
+-- Adds hook_styleguide_theme_info_alter().
+-- Adds basic tests for images within paragraphs.
+-- Splits forms into smaller chunks.
+
 19-OCT-2010
 -- README added (inadarei) and proofread (agentrickard).
 -- Adds group options to the API, cleaning the interface.
