@@ -11,8 +11,8 @@
  * used to create a named anchor link on the Style Guide page.
  *
  * Options:
- *   -- 'title' (required). A string indicating the element name. This value
- *    will be passed to t() automatically.
+ *   -- 'title' (required). A string indicating the element name. 
+ *   -- 'description' (optional). A short description of the item. 
  *   -- 'theme' (optional). A string indicating the theme function to invoke.
  *    If used, you must return a 'variables' array element. Otherwise, you
  *    must return a 'content' string.
@@ -24,38 +24,40 @@
  *    of a theme callback.
  *   -- 'tag' (optional). A string indicating a valid HTML tag (wihout <>).
  *    This tag will be wrapped around the content.
- *   -- TODO: 'attributes' for a tag element.
+ *   -- 'attributes' (optional). An array of attributes to apply to a tag element.
  *   -- 'group' (optional). A string indicating the context of this element.
  *    Groups are organized within the preview interface. If no group is
- *    provided, the item will be assigned to the 'Common' group. This value
- *    will be passed to t() automatically.
- *   -- 'description' (optional). A short description of the item. This value will
- *    will be passed to t() automatically.
+ *    provided, the item will be assigned to the 'Common' group.
  *
  * @return $items
  *   An array of items to render.
  */
 function hook_styleguide() {
-  $items = array(
-    'ul' => array(
-      'title' => 'Unordered list',
-      'theme' => 'item_list',
-      'variables' => array('items' => styleguide_list(), 'type' => 'ul'),
-      'group' => 'Common',
-    ),
-    'text' => array(
-      'title' => 'Text block',
-      'content' => styleguide_paragraph(3),
-      'group' => 'Text',
-      'description' => 'A block of three paragraphs',
-    ),
-    'h1' => array(
-      'title' => 'Text block',
+  $items['ul'] = array(
+    'title' => t('Unordered list'),
+    'theme' => 'item_list',
+    'variables' => array('items' => styleguide_list(), 'type' => 'ul'),
+    'group' => t('Common'),
+  );
+  $items['text'] => array(
+    'title' => t('Text block'),
+    'content' => styleguide_paragraph(3),
+    'group' => t('Text'),
+    'description' => t('A block of three paragraphs'),
+  );
+  $items['h1'] = array(
+      'title' => t('Text block'),
       'tag' => 'h1',
       'content' => styleguide_word(3),
-      'group' => 'Text',
+      'group' => t('Text'),
     ),
-
+  );
+  $items['div-format'] = array(
+    'title' => t('Div special'),
+    'description' => t('Add the "format" class to emphasize an entire section.'),
+    'tag' => 'div',
+    'attributes' => array('class' => 'format'),
+    'content' => styleguide_paragraph(1),
   );
   return $items;
 }
@@ -64,7 +66,7 @@ function hook_styleguide() {
  * Alter styleguide elements.
  *
  * @param &$items
- *   An array of items to be rendered.
+ *   An array of items to be displayed.
  *
  * @return
  *   No return value. Modify $items by reference.

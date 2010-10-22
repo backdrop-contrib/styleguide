@@ -101,7 +101,7 @@ function styleguide_page($theme = NULL) {
   $output = '';
   $intro = '<h2>' . t('Showing style guide for %theme', array('%theme' => $active->info['name'])) . '</h2>';
   if (isset($theme_info['description'])) {
-    $intro .= '<p>' . t('!info', array('!info' => $theme_info['description'])) . '</p>';
+    $intro .= '<p>' . $theme_info['description'] . '</p>';
   }
   $intro .= '<h2 class="styleguide">'. t('Styleguide element entries') .'</h2>';
   $intro .= '<p class="styleguide-description">' . t('Optional item description.') . '</p>';
@@ -118,10 +118,10 @@ function styleguide_page($theme = NULL) {
     foreach ($elements as $key => $item) {
       $header[$group][] = l($item['title'], $_GET['q'], array('fragment' => $key));
       $output .= "<a name=\"$key\"></a>";
-      $output .= '<h2 class="styleguide">'. t($item['title']) .'</h2>';
+      $output .= '<h2 class="styleguide">'. $item['title'] .'</h2>';
       if (!empty($item['description'])) {
         $output .= '<p class="styleguide-description">';
-        $output .= t('!description', array('!description' => $item['description']));
+        $output .= $item['description'];
         $output .= '</p>';
       }
       $output .= '<div class="styleguide">';
@@ -133,14 +133,19 @@ function styleguide_page($theme = NULL) {
         $output .= theme($item['theme'], $item['variables']);
       }
       else if (isset($item['tag']) && isset($item['content'])) {
-        $output .= '<' . $item['tag'] . '>' . $item['content'] . '</' . $item['tag'] . '>';
+        if (empty($item['attributes'])) {
+          $output .= '<' . $item['tag'] . '>' . $item['content'] . '</' . $item['tag'] . '>';
+        }
+        else {
+          $output .= '<' . $item['tag'] . ' ' . drupal_attributes($item['attributes']) . '>' . $item['content'] . '</' . $item['tag'] . '>';
+        }
       }
       else if (isset($item['content'])) {
         $output .= $item['content'];
       }
       $output .= '</div>';
     }
-    $head .= theme('item_list', array('items' => $header[$group], 'title' => t($group)));
+    $head .= theme('item_list', array('items' => $header[$group], 'title' => $group));
   }
   // Close the header.
   $head .= '<div class="break"><br /></div>';

@@ -6,78 +6,78 @@
  */
 function styleguide_styleguide() {
   $items['a'] = array(
-    'title' => 'Link',
+    'title' => t('Link'),
     'content' => ucfirst(styleguide_word(3)) . ' ' . l(styleguide_word(3), 'node') . ' ' . styleguide_word(4) . '.',
   );
   $items['em'] = array(
-    'title' => 'Emphasis',
+    'title' => t('Emphasis'),
     'content' => ucfirst(styleguide_word(3)) . ' <em>' . styleguide_word(3) . '</em> ' . styleguide_word(4) . '.',
   );
   $items['strong'] = array(
-    'title' => 'Strong',
+    'title' => t('Strong'),
     'content' => ucfirst(styleguide_word(3)) . ' <strong>' . styleguide_word(3) . '</strong> ' . styleguide_word(4) . '.',
   );
   $items['ul'] = array(
-    'title' => 'Unordered list',
+    'title' => t('Unordered list'),
     'theme' => 'item_list',
     'variables' => array('items' => styleguide_list(), 'type' => 'ul'),
-    'group' => 'Lists',
+    'group' => t('Lists'),
   );
   $items['ol'] = array(
-    'title' => 'Ordered list',
+    'title' => t('Ordered list'),
     'theme' => 'item_list',
     'variables' => array('items' => styleguide_list(), 'type' => 'ol'),
-    'group' => 'Lists',
+    'group' => t('Lists'),
   );
   $items['ul_title'] = array(
-    'title' => 'Unordered list, with title',
+    'title' => t('Unordered list, with title'),
     'theme' => 'item_list',
     'variables' => array('items' => styleguide_list(), 'type' => 'ul', 'title' => ucwords(styleguide_word())),
-    'group' => 'Lists',
+    'group' => t('Lists'),
   );
   $items['ol_title'] = array(
-    'title' => 'Ordered list, with title',
+    'title' => t('Ordered list, with title'),
     'theme' => 'item_list',
     'variables' => array('items' => styleguide_list(), 'type' => 'ol', 'title' => ucwords(styleguide_word())),
-    'group' => 'Lists',
+    'group' => t('Lists'),
   );
   $items['menu_tree'] = array(
-    'title' => 'Menu tree',
+    'title' => t('Menu tree'),
     'content' => menu_tree('management'),
-    'group' => 'Menus',
+    'group' => t('Menus'),
   );
   $items['table'] = array(
-    'title' => 'Table',
+    'title' => t('Table'),
     'theme' => 'table',
     'variables' => array('header' => styleguide_header(), 'rows' => styleguide_rows()),
-    'group' => 'Tables',
+    'group' => t('Tables'),
   );
   $items['text'] = array(
-    'title' => 'Text block',
+    'title' => t('Text block'),
     'content' => styleguide_paragraph(3),
-    'group' => 'Text',
+    'group' => t('Text'),
   );
   $items['image-horizontal'] = array(
-    'title' => 'Image, horizontal',
+    'title' => t('Image, horizontal'),
     'theme' => 'image',
     'variables' => array('path' => styleguide_image('horizontal'), 'alt' => t('My image'), 'title' => t('My image')),
-    'group' => 'Media',
+    'group' => t('Media'),
   );
   $items['image-vertical'] = array(
-    'title' => 'Image, vertical',
+    'title' => t('Image, vertical'),
     'theme' => 'image',
     'variables' => array('path' => styleguide_image('vertical'), 'alt' => t('My image'), 'title' => t('My image')),
-    'group' => 'Media',
+    'group' => t('Media'),
   );
   $items['image-inset-horizontal'] = array(
-    'title' => 'Image, horizontal, within text',
+    'title' => t('Image, horizontal, within text'),
     'content' => styleguide_paragraph(1) . theme('image', array('path' => styleguide_image('horizontal'), 'alt' => t('My image'), 'title' => t('My image'))) . styleguide_paragraph(2),
-    'group' => 'Media',
+    'group' => t('Media'),
   );
   $items['image-inset-vertical'] = array(
-    'title' => 'Image, vertical, within text',
+    'title' => t('Image, vertical, within text'),
     'content' => styleguide_paragraph(1) . theme('image', array('path' => styleguide_image('vertical'), 'alt' => t('My image'), 'title' => t('My image'))) . styleguide_paragraph(2),
-    'group' => 'Media',
+    'group' => t('Media'),
   );
   $content = '';
   for ($i = 1; $i <=6; $i++) {
@@ -86,7 +86,7 @@ function styleguide_styleguide() {
   $items['headings'] = array(
     'title' => "Headings",
     'content' => $content,
-    'group' => 'Text',
+    'group' => t('Text'),
   );
   $content = '';
   for ($i = 1; $i <=6; $i++) {
@@ -95,7 +95,7 @@ function styleguide_styleguide() {
   $items['headings_text'] = array(
     'title' => "Headings with text",
     'content' => $content,
-    'group' => 'Text',
+    'group' => t('Text'),
   );
   $messages = array('status', 'warning', 'error');
   foreach ($messages as $message) {
@@ -130,39 +130,39 @@ function styleguide_styleguide() {
     }
   }
   $items['form'] = array(
-    'title' => 'Forms, basic',
+    'title' => t('Forms, basic'),
     'content' => drupal_get_form('styleguide_form', $basic),
-    'group' => 'Forms',
+    'group' => t('Forms'),
   );
   $items['form-submit'] = array(
-    'title' => 'Forms, submit',
+    'title' => t('Forms, submit'),
     'content' => drupal_get_form('styleguide_form', array('submit')),
-    'group' => 'Forms',
+    'group' => t('Forms'),
   );
   $items['form-button'] = array(
-    'title' => 'Forms, button',
+    'title' => t('Forms, button'),
     'content' => drupal_get_form('styleguide_form', array('button')),
-    'group' => 'Forms',
+    'group' => t('Forms'),
   );
   $items['form-image-button'] = array(
-    'title' => 'Forms, image button',
+    'title' => t('Forms, image button'),
     'content' => drupal_get_form('styleguide_form', array('image_button')),
-    'group' => 'Forms',
+    'group' => t('Forms'),
   );
   $items['form-markup'] = array(
-    'title' => 'Forms, markup',
+    'title' => t('Forms, markup'),
     'content' => drupal_get_form('styleguide_form', $markup),
-    'group' => 'Forms',
+    'group' => t('Forms'),
   );
   $items['form-fieldsets'] = array(
-    'title' => 'Forms, fieldsets',
+    'title' => t('Forms, fieldsets'),
     'content' => drupal_get_form('styleguide_form', $fieldsets),
-    'group' => 'Forms',
+    'group' => t('Forms'),
   );
   $items['form-vertical-tabs'] = array(
-    'title' => 'Forms, vertical tabs',
+    'title' => t('Forms, vertical tabs'),
     'content' => drupal_get_form('styleguide_form', $tabs),
-    'group' => 'Forms',
+    'group' => t('Forms'),
   );
 
   return $items;
