@@ -23,7 +23,8 @@
  *    present. May be used in conjunction with a 'tag' element, or used instead
  *    of a theme callback.
  *   -- 'tag' (optional). A string indicating a valid HTML tag (wihout <>).
- *    This tag will be wrapped around the content.
+ *    This tag will be wrapped around the content. In Drupal 7, this element is
+ *    deprecated in favor of theme_html_tag().
  *   -- 'attributes' (optional). An array of attributes to apply to a tag element.
  *   -- 'group' (optional). A string indicating the context of this element.
  *    Groups are organized within the preview interface. If no group is
@@ -46,11 +47,10 @@ function hook_styleguide() {
     'description' => t('A block of three paragraphs'),
   );
   $items['h1'] = array(
-      'title' => t('Text block'),
-      'tag' => 'h1',
-      'content' => styleguide_word(3),
-      'group' => t('Text'),
-    ),
+    'title' => t('Text block'),
+    'tag' => 'h1',
+    'content' => styleguide_word(3),
+    'group' => t('Text'),
   );
   $items['div-format'] = array(
     'title' => t('Div special'),

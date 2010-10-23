@@ -36,6 +36,30 @@ function _styleguide_page_theme($theme) {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function styleguide_theme($existing, $type, $theme, $path) {
+  $themes = array(
+    'styleguide_header' => array(
+      'variables' => array('theme_info' => array()),
+    ),
+    'styleguide_links' => array(
+      'variables' => array('items' => array()),
+    ),
+    'styleguide_item' => array(
+      'variables' => array('key' => NULL, 'item' => array(), 'content' => NULL),
+    ),
+    'styleguide_content' => array(
+      'variables' => array('content' => NULL),
+    ),
+  );
+  foreach ($themes as $theme => $data) {
+    $themes[$theme]['file'] = 'styleguide.theme.inc';
+  }
+  return $themes;
+}
+
+/**
  * Implements hook_permission().
  */
 function styleguide_permission() {
@@ -97,61 +121,49 @@ function styleguide_page($theme = NULL) {
     $groups[$item['group']][$key] = $item;
   }
   ksort($groups);
-  // Set the output.
-  $output = '';
-  $intro = '<h2>' . t('Showing style guide for %theme', array('%theme' => $active->info['name'])) . '</h2>';
-  if (isset($theme_info['description'])) {
-    $intro .= '<p>' . $theme_info['description'] . '</p>';
-  }
-  $intro .= '<h2 class="styleguide">'. t('Styleguide element entries') .'</h2>';
-  $intro .= '<p class="styleguide-description">' . t('Optional item description.') . '</p>';
-  $intro .= '<div class="styleguide">';
-  $intro .= t('The header area indicates the style element being displayed. The horizontal rules indicate the top and bottom baselines of the rendered element.');
-  $intro .= '</div>';
-  $intro .= '<div class="break"><br /></div>';
-
   // Create a navigation header.
-  $head = '<div id="styleguide-header">';
   $header = array();
+  $head = '';
+  $content = '';
   // Process the elements, by group.
   foreach ($groups as $group => $elements) {
     foreach ($elements as $key => $item) {
-      $header[$group][] = l($item['title'], $_GET['q'], array('fragment' => $key));
-      $output .= "<a name=\"$key\"></a>";
-      $output .= '<h2 class="styleguide">'. $item['title'] .'</h2>';
-      if (!empty($item['description'])) {
-        $output .= '<p class="styleguide-description">';
-        $output .= $item['description'];
-        $output .= '</p>';
-      }
-      $output .= '<div class="styleguide">';
-      // Support a renderable array for content.
-      if (isset($item['content']) && is_array($item['content'])) {
-        $item['content'] = drupal_render($item['content']);
-      }
+      $display = '';
+      // Output a standard theme item.
       if (isset($item['theme'])) {
-        $output .= theme($item['theme'], $item['variables']);
+        $display = theme($item['theme'], $item['variables']);
       }
-      else if (isset($item['tag']) && isset($item['content'])) {
+      // Output a standard HTML tag. In Drupal 7, the preference
+      // is to pass theme('html_tag') instead. This is kept for API
+      // compatibility with Drupal 6.
+      elseif (isset($item['tag']) && isset($item['content'])) {
         if (empty($item['attributes'])) {
-          $output .= '<' . $item['tag'] . '>' . $item['content'] . '</' . $item['tag'] . '>';
+          $display = '<' . $item['tag'] . '>' . $item['content'] . '</' . $item['tag'] . '>';
         }
         else {
-          $output .= '<' . $item['tag'] . ' ' . drupal_attributes($item['attributes']) . '>' . $item['content'] . '</' . $item['tag'] . '>';
+          $display = '<' . $item['tag'] . ' ' . drupal_attributes($item['attributes']) . '>' . $item['content'] . '</' . $item['tag'] . '>';
         }
       }
-      else if (isset($item['content'])) {
-        $output .= $item['content'];
+      // Support a renderable array for content.
+      elseif (isset($item['content']) && is_array($item['content'])) {
+        $display = drupal_render($item['content']);
       }
-      $output .= '</div>';
+      // Just print the provided content.
+      elseif (isset($item['content'])) {
+        $display = $item['content'];
+      }
+      // Add the content.
+      $content .= theme('styleguide_item', array('key' => $key, 'item' => $item, 'content' => $display));
+      // Prepare the header link.
+      $header[$group][] = l($item['title'], $_GET['q'], array('fragment' => $key));
     }
     $head .= theme('item_list', array('items' => $header[$group], 'title' => $group));
   }
-  // Close the header.
-  $head .= '<div class="break"><br /></div>';
-  $head .= '</div>';
+  $output = theme('styleguide_header', array('theme_info' => $theme_info));
+  $output .= theme('styleguide_links', array('items' => $head));
+  $output .= theme('styleguide_content', array('content' => $content));
   // Return the page.
-  return $intro . $head . $output;
+  return $output;
 }
 
 /**

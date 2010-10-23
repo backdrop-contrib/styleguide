@@ -2,6 +2,11 @@
 
 CHANGELOG file for Style Guide.
 
+23-OCT-2010
+-- Uses proper theming for page display.
+-- Adds styleguide.theme.inc.
+-- Documents preferred use of theme_html_tag().
+
 22-OCT-2010
 -- #949758. Use t() normally.
 -- #949764. Suppert attributes for tags.
