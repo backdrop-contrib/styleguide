@@ -6,6 +6,7 @@ CHANGELOG file for Style Guide.
 -- Uses proper theming for page display.
 -- Adds styleguide.theme.inc.
 -- Documents preferred use of theme_html_tag().
+-- Fixes default page callback.
 
 22-OCT-2010
 -- #949758. Use t() normally.

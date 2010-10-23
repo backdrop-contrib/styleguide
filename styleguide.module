@@ -5,14 +5,17 @@
  * Implements hook_menu().
  */
 function styleguide_menu() {
+  $default = variable_get('theme_default', 'bartik');
   $items['admin/appearance/styleguide'] = array(
     'title' => 'Style guide',
     'page callback' => 'styleguide_page',
     'weight' => 40,
     'access arguments' => array('view style guides'),
+    'theme callback' => '_styleguide_page_theme',
+    'theme arguments' => array($default),
   );
   foreach (list_themes() as $theme) {
-    $is_default = $theme->name == variable_get('theme_default', 'bartik');
+    $is_default = $theme->name == $default;
     $items['admin/appearance/styleguide/' . $theme->name] = array(
       'title' => $theme->info['name'],
       'page callback' => 'styleguide_page',
