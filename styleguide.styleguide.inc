@@ -7,15 +7,15 @@
 function styleguide_styleguide() {
   $items['a'] = array(
     'title' => t('Link'),
-    'content' => ucfirst(styleguide_word(3)) . ' ' . l(styleguide_word(3), 'node') . ' ' . styleguide_word(4) . '.',
+    'content' => styleguide_word(3, 'ucfirst') . ' ' . l(styleguide_word(3), 'node') . ' ' . styleguide_word(4) . '.',
   );
   $items['em'] = array(
     'title' => t('Emphasis'),
-    'content' => ucfirst(styleguide_word(3)) . ' <em>' . styleguide_word(3) . '</em> ' . styleguide_word(4) . '.',
+    'content' => styleguide_word(3, 'ucfirst') . ' <em>' . styleguide_word(3) . '</em> ' . styleguide_word(4) . '.',
   );
   $items['strong'] = array(
     'title' => t('Strong'),
-    'content' => ucfirst(styleguide_word(3)) . ' <strong>' . styleguide_word(3) . '</strong> ' . styleguide_word(4) . '.',
+    'content' => styleguide_word(3, 'ucfirst') . ' <strong>' . styleguide_word(3) . '</strong> ' . styleguide_word(4) . '.',
   );
   $items['ul'] = array(
     'title' => t('Unordered list'),
@@ -32,13 +32,13 @@ function styleguide_styleguide() {
   $items['ul_title'] = array(
     'title' => t('Unordered list, with title'),
     'theme' => 'item_list',
-    'variables' => array('items' => styleguide_list(), 'type' => 'ul', 'title' => ucwords(styleguide_word())),
+    'variables' => array('items' => styleguide_list(), 'type' => 'ul', 'title' => styleguide_word(3, 'ucfirst')),
     'group' => t('Lists'),
   );
   $items['ol_title'] = array(
     'title' => t('Ordered list, with title'),
     'theme' => 'item_list',
-    'variables' => array('items' => styleguide_list(), 'type' => 'ol', 'title' => ucwords(styleguide_word())),
+    'variables' => array('items' => styleguide_list(), 'type' => 'ol', 'title' => styleguide_word(3, 'ucfirst')),
     'group' => t('Lists'),
   );
   $items['menu_tree'] = array(

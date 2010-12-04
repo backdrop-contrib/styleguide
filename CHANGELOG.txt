@@ -2,6 +2,12 @@
 
 CHANGELOG file for Style Guide.
 
+04-DEC-2010
+-- Patch #949070 by dmitrig01. Adds module includes and features
+    from Style Guide GCI tasks.
+-- Changes the function signature of styleguide_word().
+-- Updates handling of styleguide_word() calls.
+
 23-OCT-2010
 -- Uses proper theming for page display.
 -- Adds styleguide.theme.inc.

@@ -91,7 +91,10 @@ function styleguide_access_check($theme) {
  * The styleguide page.
  */
 function styleguide_page($theme = NULL) {
-  drupal_add_css(drupal_get_path('module', 'styleguide') . '/styleguide.css');
+  // Get the path to the module for loading includes.
+  $path = drupal_get_path('module', 'styleguide');
+  // Load our stylesheet.
+  drupal_add_css($path . '/styleguide.css');
 
   // TODO: notice about the Overlay module?
 
@@ -103,6 +106,14 @@ function styleguide_page($theme = NULL) {
   // Get theme data.
   $themes = list_themes();
   $active = $themes[$theme];
+
+  // Include modules for which we implement styleguides.
+  $modules = module_list();
+  foreach ($modules as $module) {
+    if (file_exists($path . '/modules/' . $module . '.inc')) {
+      include_once $path . '/modules/' . $module . '.inc';
+    }
+  }
 
   // Get visual testing elements.
   $items = module_invoke_all('styleguide');
@@ -133,6 +144,7 @@ function styleguide_page($theme = NULL) {
     foreach ($elements as $key => $item) {
       $display = '';
       // Output a standard theme item.
+
       if (isset($item['theme'])) {
         $display = theme($item['theme'], $item['variables']);
       }
@@ -190,16 +202,28 @@ function styleguide_hook_info() {
 function styleguide_list($size = 5) {
   $items = array();
   for ($i = 0; $i < $size; $i++) {
-    $items[] = styleguide_word();
+    $items[] = styleguide_word(3, 'ucfirst');
   }
   return $items;
 }
 
 /**
- * Return a random word.
+ * Return a random word or words.
+ *
+ * @param $size
+ *   The number of words to return.
+ * @param $case
+ *   A string indicating the case to return. This is the name of a PHP function.
+ *   options are 'ucfirst', 'ucwords', 'strtoupper', and 'strtolower'.
+ *   Defaults to return strtolower().
  */
-function styleguide_word($size = 1) {
-  return styleguide_lorem(1, $size, 'lower', FALSE, FALSE);
+function styleguide_word($size = 1, $case = 'strtolower') {
+  $words = styleguide_lorem(1, $size, 'lower', FALSE, FALSE);
+  $functions = array('ucfirst', 'ucwords', 'strtoupper', 'strtolower');
+  if (!is_null($case) && function_exists($case) && in_array($case, $functions)) {
+    $words = $case($words);
+  }
+  return $words;
 }
 
 /**
@@ -405,7 +429,7 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
   $form['textfield'] = array(
     '#type' => 'textfield',
     '#title' => t('Textfield'),
-    '#default_value' => styleguide_word(),
+    '#default_value' => styleguide_word(3, 'ucfirst'),
     '#description' => styleguide_sentence(),
   );
   $form['autocomplete'] = array(
@@ -418,7 +442,7 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
   $form['textfield-machine'] = array(
     '#type' => 'textfield',
     '#title' => t('Textfield, with machine name'),
-    '#default_value' => styleguide_word() . ' ' . styleguide_word() . ' ' . styleguide_word(),
+    '#default_value' => styleguide_word(3, 'ucfirst'),
     '#description' => styleguide_sentence(),
   );
   $form['machine_name'] = array(
