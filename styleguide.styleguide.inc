@@ -164,6 +164,26 @@ function styleguide_styleguide() {
     'content' => drupal_get_form('styleguide_form', $tabs),
     'group' => t('Forms'),
   );
+  $items['system_powered_by'] = array(
+    'title' => t('System powered by'),
+    'content' => theme('system_powered_by'),
+    'group' => t('System')
+  );
+  $items['maintenance_page'] = array(
+    'title' => t('Maintenance page'),
+    'content' => theme('maintenance_page', array('content' => styleguide_paragraph(2))),
+    'group' => t('System')
+  );
+  $items['pager'] = array(
+    'title' => t('Pager'),
+    'content' => styleguide_pager(),
+    'group' => t('User interface')
+  );
+  $items['progress_bar'] = array(
+    'title' => t('Progress bar'),
+    'content' => theme('progress_bar', array('percent' => 57, 'message' => styleguide_sentence(2))),
+    'group' => t('User interface')
+  );
 
   return $items;
 }

@@ -559,3 +559,20 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
   }
   return $form;
 }
+
+/**
+ * Simulate Drupal pagination,
+ *
+ * @param $size
+ *   The number of page numbers to display.
+ * @param $total
+ *   The total number of pages to simulate.
+ * @return
+ *   A Drupal pager HTML element.
+ */
+function styleguide_pager($size = 8, $total = 20) {
+  global $pager_page_array, $pager_total;
+  $pager_page_array[-99] = $size;
+  $pager_total[-99] = $total;
+  return theme('pager', array('element' => -99));
+}

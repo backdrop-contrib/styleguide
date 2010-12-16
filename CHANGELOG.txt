@@ -2,6 +2,9 @@
 
 CHANGELOG file for Style Guide.
 
+16-DEC-2010
+-- Patch #989076 by chalet16. Adds new elements to default support.
+
 04-DEC-2010
 -- Patch #949070 by dmitrig01. Adds module includes and features
     from Style Guide GCI tasks.
