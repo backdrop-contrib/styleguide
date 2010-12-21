@@ -2,6 +2,9 @@
 
 CHANGELOG file for Style Guide.
 
+21-DEC-2010
+-- Patch #989060 by chalet16. Adds forum and image module support.
+
 16-DEC-2010
 -- Patch #989076 by chalet16. Adds new elements to default support.
 

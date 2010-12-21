@@ -164,14 +164,19 @@ function styleguide_styleguide() {
     'content' => drupal_get_form('styleguide_form', $tabs),
     'group' => t('Forms'),
   );
-  $items['system_powered_by'] = array(
-    'title' => t('System powered by'),
-    'content' => theme('system_powered_by'),
+  $items['feed_icon'] = array(
+    'title' => t('Feed icon'),
+    'content' => theme('feed_icon', array('url' => url('rss.xml'), 'title' => t('Syndicate'))),
     'group' => t('System')
   );
   $items['maintenance_page'] = array(
     'title' => t('Maintenance page'),
     'content' => theme('maintenance_page', array('content' => styleguide_paragraph(2))),
+    'group' => t('System')
+  );
+  $items['system_powered_by'] = array(
+    'title' => t('System powered by'),
+    'content' => theme('system_powered_by'),
     'group' => t('System')
   );
   $items['pager'] = array(
