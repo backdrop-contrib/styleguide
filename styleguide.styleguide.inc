@@ -179,6 +179,11 @@ function styleguide_styleguide() {
     'content' => theme('system_powered_by'),
     'group' => t('System')
   );
+  $items['confirm_form'] = array(
+    'title' => t('Confirm form'),
+    'content' => drupal_get_form('confirm_form', array('path' => '')),
+    'group' => t('System')
+  );
   $items['pager'] = array(
     'title' => t('Pager'),
     'content' => styleguide_pager(),
@@ -187,6 +192,12 @@ function styleguide_styleguide() {
   $items['progress_bar'] = array(
     'title' => t('Progress bar'),
     'content' => theme('progress_bar', array('percent' => 57, 'message' => styleguide_sentence(2))),
+    'group' => t('User interface')
+  );
+  // Use alternative item name to avoid conflict with main breadcrumb.
+  $items['styleguide_breadcrumb'] = array(
+    'title' => t('Breadcrumb'),
+    'content' => theme('breadcrumb', array('breadcrumb' => drupal_get_breadcrumb())),
     'group' => t('User interface')
   );
 

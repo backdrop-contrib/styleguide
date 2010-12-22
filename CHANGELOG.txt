@@ -2,6 +2,9 @@
 
 CHANGELOG file for Style Guide.
 
+22-DEC-2010
+-- Patch #989072 by chalet16. Adds search and filter module support.
+
 21-DEC-2010
 -- Patch #989060 by chalet16. Adds forum and image module support.
 
