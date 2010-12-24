@@ -1,5 +1,6 @@
 /* $Id$ */
 
+/* LTR */
 h2.styleguide {
   font-family: helvetica, arial, sans-serif;
   font-weight: bold;
@@ -18,10 +19,11 @@ div.styleguide {
 
 #styleguide-header {
   border: 1px solid #ccc;
-  padding 0.25em;
+  padding: 0.25em 1em 0.25em 1em;
   background-color: #fafafa;
 }
 
+/* LTR */
 #styleguide-header .item-list {
   float: left;
   margin: 0 2em 1em 0;

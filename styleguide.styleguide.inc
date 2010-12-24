@@ -5,6 +5,7 @@
  * Implements hook_styleguide().
  */
 function styleguide_styleguide() {
+  $current_url = request_path();
   $items['a'] = array(
     'title' => t('Link'),
     'content' => styleguide_word(3, 'ucfirst') . ' ' . l(styleguide_word(3), 'node') . ' ' . styleguide_word(4) . '.',
@@ -174,6 +175,7 @@ function styleguide_styleguide() {
     'content' => theme('feed_icon', array('url' => url('rss.xml'), 'title' => t('Syndicate'))),
     'group' => t('System')
   );
+  // This item kills drupal_set_message. The messages are displayed here.
   $items['maintenance_page'] = array(
     'title' => t('Maintenance page'),
     'content' => theme('maintenance_page', array('content' => styleguide_paragraph(2))),
@@ -205,7 +207,6 @@ function styleguide_styleguide() {
     'content' => theme('breadcrumb', array('breadcrumb' => drupal_get_breadcrumb())),
     'group' => t('User interface')
   );
-  $current_url = request_path();
   $items['link'] = array(
     'title' => t('Link'),
     'content' => l(styleguide_word(2), $current_url),

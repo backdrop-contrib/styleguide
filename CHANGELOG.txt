@@ -4,6 +4,7 @@ CHANGELOG file for Style Guide.
 
 24-DEC-2010
 -- Patch #989082 by chalet16. Adds link theme support.
+-- Fixes title handling. Cleans up CSS. Uses proper render arrays.
 
 22-DEC-2010
 -- Patch #989072 by chalet16. Adds search and filter module support.

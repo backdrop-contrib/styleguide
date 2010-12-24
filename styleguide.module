@@ -93,8 +93,6 @@ function styleguide_access_check($theme) {
 function styleguide_page($theme = NULL) {
   // Get the path to the module for loading includes.
   $path = drupal_get_path('module', 'styleguide');
-  // Load our stylesheet.
-  drupal_add_css($path . '/styleguide.css');
 
   // TODO: notice about the Overlay module?
 
@@ -174,11 +172,13 @@ function styleguide_page($theme = NULL) {
     }
     $head .= theme('item_list', array('items' => $header[$group], 'title' => $group));
   }
-  $output = theme('styleguide_header', array('theme_info' => $theme_info));
-  $output .= theme('styleguide_links', array('items' => $head));
-  $output .= theme('styleguide_content', array('content' => $content));
   // Return the page.
-  return $output;
+  $build = array();
+  $build['header']['#markup'] = theme('styleguide_header', array('theme_info' => $theme_info));
+  $build['navigation']['#markup']= theme('styleguide_links', array('items' => $head));
+  $build['content']['#markup'] = theme('styleguide_content', array('content' => $content));
+  $build['content']['#attached']['css'][] = $path . '/styleguide.css';
+  return $build;
 }
 
 /**
@@ -572,9 +572,11 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
  */
 function styleguide_pager($size = 8, $total = 20) {
   global $pager_page_array, $pager_total;
-  $pager_page_array[-99] = $size;
-  $pager_total[-99] = $total;
-  return theme('pager', array('element' => -99));
+  $pager_page_array[1] = $size;
+  $pager_total[1] = $total;
+  // For some reason, the pager breaks the page title.
+  drupal_set_title('Style guide');
+  return theme('pager', array('element' => 1));
 }
 
 /**
