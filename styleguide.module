@@ -576,3 +576,43 @@ function styleguide_pager($size = 8, $total = 20) {
   $pager_total[-99] = $total;
   return theme('pager', array('element' => -99));
 }
+
+/**
+ * Generate a array of random links
+ *
+ * @param $url
+ *   The internal path or external URL being linked to.
+ * @param $size
+ *   The total number of links to generate .
+ * @return
+ *   A array of random links
+ */
+function styleguide_links($url, $size = 4) {
+  $links = array();
+  for ($i = 0; $i < 5; $i++) {
+    $links[] = array(
+      'title' => styleguide_word(3),
+      'href' => $url,
+    );
+  }
+  return $links;
+}
+
+/**
+ * Generate a random menu item
+ *
+ * @param $url
+ *   The internal path or external URL being linked to.
+ * @return
+ *   A random menu item, see menu_tree_page_data for a description of the data structure.
+ */
+function styleguide_menu_item($url) {
+  $menu_item = array(
+    '#title' => styleguide_sentence(),
+    '#href' => $url, 
+    '#localized_options' => array(),
+    '#attributes' => array(),
+    '#below' => FALSE,
+  );
+  return $menu_item;
+}

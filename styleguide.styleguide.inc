@@ -46,6 +46,11 @@ function styleguide_styleguide() {
     'content' => menu_tree('management'),
     'group' => t('Menus'),
   );
+  $items['menu_link'] = array(
+    'title' => t('Menu link'),
+    'content' => theme('menu_link', array('element' => styleguide_menu_item($current_url))),
+    'group' => t('Menus')
+  );
   $items['table'] = array(
     'title' => t('Table'),
     'theme' => 'table',
@@ -199,6 +204,37 @@ function styleguide_styleguide() {
     'title' => t('Breadcrumb'),
     'content' => theme('breadcrumb', array('breadcrumb' => drupal_get_breadcrumb())),
     'group' => t('User interface')
+  );
+  $current_url = request_path();
+  $items['link'] = array(
+    'title' => t('Link'),
+    'content' => l(styleguide_word(2), $current_url),
+    'group' => t('Link')
+  );
+  $items['links'] = array(
+    'title' => t('Links'),
+    'content' => theme('links', array('links' => styleguide_links($current_url))),
+    'group' => t('Link')
+  );
+  $items['mark_new'] = array(
+    'title' => t('Mark, new'),
+    'content' => l(styleguide_sentence(), $current_url) . theme('mark', array('type' => MARK_NEW)),
+    'group' => t('Link')
+  );
+  $items['mark_updated'] = array(
+    'title' => t('Mark, updated'),
+    'content' => l(styleguide_sentence(), $current_url) . theme('mark', array('type' => MARK_UPDATED)),
+    'group' => t('Link')
+  );
+  $items['more_help_link'] = array(
+    'title' => t('More help link'),
+    'content' => styleguide_paragraph(1) . theme('more_help_link', array('url' => $current_url)),
+    'group' => t('Link')
+  );
+  $items['more_link'] = array(
+    'title' => t('More link'),
+    'content' => styleguide_paragraph(1) . theme('more_link', array('url' => $current_url, 'title' => styleguide_sentence())),
+    'group' => t('Link')
   );
 
   return $items;
