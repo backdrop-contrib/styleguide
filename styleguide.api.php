@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Register a style guide element for display.

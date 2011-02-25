@@ -1,4 +1,3 @@
-// $Id$
 
 # Style Guide Drupal Module [http://drupal.org/project/styleguide](http://drupal.org/project/styleguide)
 
