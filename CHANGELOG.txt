@@ -1,6 +1,9 @@
 
 CHANGELOG file for Style Guide.
 
+07-MAY-2011
+-- Patch #1142982 by dcmouyard, tsi. Better color css handling.
+
 24-DEC-2010
 -- Patch #989082 by chalet16. Adds link theme support.
 -- Fixes title handling. Cleans up CSS. Uses proper render arrays.

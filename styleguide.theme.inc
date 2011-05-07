@@ -68,7 +68,7 @@ function theme_styleguide_item($variables) {
  */
 function theme_styleguide_links($variables) {
   // Close the header.
-  $output = '<div id="styleguide-header">';
+  $output = '<div id="styleguide-header" class="styleguide">';
   $output .= $variables['items'];
   $output .= '<div class="break"><br /></div>';
   $output .= '</div>';
