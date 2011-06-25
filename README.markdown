@@ -15,7 +15,7 @@ custom themes.
 
  * You must be logged in as a global admin user (uid=1), or the user you are
  logged in with must have a "View theme style guides" permission.
- * Navigate to: http://yourdomain.com/admin/appearance/styleguide and you will
+ * Navigate to: http://example.com/admin/appearance/styleguide and you will
  see a style guide for the current default theme. 
  * Using the tabs at the top of the page, you can switch to viewing the style
  guide in any other, available theme.

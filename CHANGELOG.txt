@@ -1,6 +1,9 @@
 
 CHANGELOG file for Style Guide.
 
+25-JUN-2011
+-- Fixes use of example.com in README.
+
 07-MAY-2011
 -- Patch #1142982 by dcmouyard, tsi. Better color css handling.
 
