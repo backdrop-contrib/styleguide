@@ -1,6 +1,9 @@
 
 CHANGELOG file for Style Guide.
 
+04-MAR-2012
+-- Patch #1440510 by BWPanda. Do not use admin theme with Styleguide.
+
 25-JUN-2011
 -- Fixes use of example.com in README.
 

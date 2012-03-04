@@ -31,6 +31,18 @@ function styleguide_menu() {
 }
 
 /**
+ * Implements hook_admin_paths().
+ */
+function styleguide_admin_paths() {
+  $paths = array(
+    'admin/appearance/styleguide' => FALSE,
+    'admin/appearance/styleguide/*' => FALSE,
+  );
+
+  return $paths;
+}
+
+/**
  * Theme callback for the styleguide pages.
  */
 function _styleguide_page_theme($theme) {
