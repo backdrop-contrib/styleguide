@@ -44,13 +44,13 @@ function styleguide_styleguide() {
   $items['ul_long'] = array(
     'title' => t('Unordered list with wrapped list items'),
     'theme' => 'item_list',
-    'variables' => array('items' => styleguide_list(3,120), 'type' => 'ul'),
+    'variables' => array('items' => styleguide_list(3, 120), 'type' => 'ul'),
     'group' => t('Lists'),
   );
   $items['ol_long'] = array(
     'title' => t('Ordered list with wrapped list items'),
     'theme' => 'item_list',
-    'variables' => array('items' => styleguide_list(3,120), 'type' => 'ol'),
+    'variables' => array('items' => styleguide_list(3, 120), 'type' => 'ol'),
     'group' => t('Lists'),
   );
   $items['menu_tree'] = array(
