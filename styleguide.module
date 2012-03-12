@@ -210,10 +210,10 @@ function styleguide_hook_info() {
  * @return
  *   An array of words.
  */
-function styleguide_list($size = 5) {
+function styleguide_list($size = 5, $words = 3) {
   $items = array();
   for ($i = 0; $i < $size; $i++) {
-    $items[] = styleguide_word(3, 'ucfirst');
+    $items[] = styleguide_word($words, 'ucfirst');
   }
   return $items;
 }
