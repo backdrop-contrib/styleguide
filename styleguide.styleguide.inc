@@ -53,6 +53,27 @@ function styleguide_styleguide() {
     'variables' => array('items' => styleguide_list(3, 120), 'type' => 'ol'),
     'group' => t('Lists'),
   );
+  $items['ul_links'] = array(
+    'title' => t('Unordered list with links'),
+    'theme' => 'links',
+    'variables' => array(
+      'links' => styleguide_ul_links(),
+    ),
+    'group' => t('Lists'),
+  );
+  $items['ul_links_inline'] = array(
+    'title' => t('Unordered inline list with links'),
+    'theme' => 'links',
+    'variables' => array(
+      'links' => styleguide_ul_links(),
+      'attributes' => array(
+        'class' => array(
+          'inline',
+        ),
+      ),
+    ),
+    'group' => t('Lists'),
+  );
   $items['menu_tree'] = array(
     'title' => t('Menu tree'),
     'content' => menu_tree('management'),
@@ -253,6 +274,13 @@ function styleguide_styleguide() {
     'content' => styleguide_paragraph(1) . theme('more_link', array('url' => $current_url, 'title' => styleguide_sentence())),
     'group' => t('Link')
   );
+  $items['monospace'] = array(
+    'title' => t('Monospace'),
+    'content' => styleguide_lorem(1, 0, 'mixed', FALSE),
+    'group' => t('Text'),
+    'tag' => 'code',
+  );
 
   return $items;
 }
+

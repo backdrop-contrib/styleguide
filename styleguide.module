@@ -629,3 +629,22 @@ function styleguide_menu_item($url) {
   );
   return $menu_item;
 }
+
+/**
+ * Generate a links array for theme_links.
+ */
+function styleguide_ul_links() {
+  $links = array();
+
+  for ($i = 0; $i <= 10; $i++) {
+    $word = styleguide_word();
+    $links[$word] = array(
+      'title' => $word,
+      'href' => current_path(),
+      'fragment' => 'ul_links',
+    );
+  }
+
+  return $links;
+}
+
