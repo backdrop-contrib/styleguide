@@ -403,6 +403,18 @@ function styleguide_sentence() {
 }
 
 /**
+ * Provide results for the machine_name field's duplication check.
+ *
+ * @param $value
+ *   The submitted value.
+ * @return
+ *   The check isn't necessary here, so always return FALSE.
+ */
+function styleguide_machine_name_exists($value) {
+  return FALSE;
+}
+
+/**
  * Sample form, showing all elements.
  */
 function styleguide_form($form, &$form_state, $form_keys = array()) {
@@ -460,6 +472,7 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
     '#type' => 'machine_name',
     '#title' => t('Machine name'),
     '#machine_name' => array(
+      'exists' => 'styleguide_machine_name_exists',
       'source' => array('textfield-machine'),
     ),
     '#description' => styleguide_sentence(),
