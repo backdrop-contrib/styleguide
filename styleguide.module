@@ -1,6 +1,26 @@
 <?php
 
 /**
+ * Implements hook_help().
+ */
+function styleguide_help($path, $arg) {
+  $output = '';
+  switch ($path) {
+    // Main module help for the Style guide module.
+    case 'admin/help#styleguide':
+      $output .= '<p>' . t('Provides a visual testing page for Drupal themes. Quickly compare the display of common elements across your themes, and verify that your new theme addresses all common style elements.') . '</p>';
+
+      $output .= '<p>' . t('The Style Guide module creates a preview page for displaying common theme elements in all active themes for your Drupal site. The module comes with previews for common HTML elements, such as tables, forms, links and lists.') . '</p>';
+
+      $output .= '<p>' . t('You can preview the styleguide at !url', array('!url' => l(t('admin/appearance/styleguide'), "admin/appearance/styleguide"))) . '</p>';
+
+      break;
+  }
+
+  return $output;
+}
+
+/**
  * Implements hook_menu().
  */
 function styleguide_menu() {
