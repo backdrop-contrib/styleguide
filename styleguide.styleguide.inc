@@ -87,7 +87,7 @@ function styleguide_styleguide() {
   $items['table'] = array(
     'title' => t('Table'),
     'theme' => 'table',
-    'variables' => array('header' => styleguide_header(), 'rows' => styleguide_rows()),
+    'variables' => array('caption' => styleguide_word(3), 'header' => styleguide_header(), 'rows' => styleguide_rows()),
     'group' => t('Tables'),
   );
   $items['text'] = array(
