@@ -12,16 +12,11 @@
  *   (optional) The theme to display palettes for. Defaults to NULL, which will
  *   fallback to the default theme.
  */
-function styleguide_palette($theme = NULL) {
+function styleguide_palette_page($theme = NULL) {
   $theme = $theme ?: variable_get('theme_default', 'bartik');
-  $swatches = array();
-  $results = styleguide_palette_swatch_load_multiple($theme);
-  foreach ($results as $swatch) {
-    $swatches[] = array_map('check_plain', (array) $swatch);
-  }
   return array(
     '#theme' => 'styleguide_palette',
-    '#swatches' => $swatches,
+    '#swatches' => styleguide_palette($theme),
   );
 }
 

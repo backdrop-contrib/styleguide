@@ -12,7 +12,7 @@ function styleguide_palette_menu() {
   $items['admin/config/user-interface/styleguide-palette'] = array(
     'title' => 'Style guide palette',
     'description' => 'View color palettes.',
-    'page callback' => 'styleguide_palette',
+    'page callback' => 'styleguide_palette_page',
     'access arguments' => array('view style guides'),
     'file' => 'styleguide_palette.admin.inc',
   );
@@ -63,6 +63,40 @@ function styleguide_palette_menu() {
       'weight' => -5,
     );
   }
+  return $items;
+}
+
+/**
+ * Returns the sanitized swatches for a given theme.
+ *
+ * @param string $theme
+ *   The machine name of the theme.
+ *
+ * @return array
+ *   An array of swatches, with all values sanitized.
+ */
+function styleguide_palette($theme) {
+  $swatches = array();
+  $results = styleguide_palette_swatch_load_multiple($theme);
+  foreach ($results as $swatch) {
+    $swatches[] = array_map('check_plain', (array) $swatch);
+  }
+  return $swatches;
+}
+
+/**
+ * Implements hook_styleguide().
+ *
+ * Adds the color palette to the style guide page.
+ */
+function styleguide_palette_styleguide() {
+  global $theme;
+  $items['color_palette'] = array(
+    'title' => t('Color palette'),
+    'theme' => 'styleguide_palette',
+    'variables' => array('swatches' => styleguide_palette($theme)),
+    'group' => t('Branding'),
+  );
   return $items;
 }
 
