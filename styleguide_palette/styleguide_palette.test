@@ -233,8 +233,8 @@ class StyleguidePaletteTest extends StyleguidePaletteTestBase {
     $this->drupalPost('admin/config/user-interface/styleguide-palette/edit', $edit2, t('Save palette'));
 
     $expected = '';
-    $expected .= '<h3 class="styleguide-palette-swatch-name">' . $edit1['name'] . '</h3>' . "\n";
     $expected .= '<div class="styleguide-palette-swatch-color" style="background-color: ' . $edit1['hex'] . ';">&nbsp;</div>' . "\n";
+    $expected .= '<h3 class="styleguide-palette-swatch-name">' . $edit1['name'] . '</h3>' . "\n";
     $expected .= '<div class="styleguide-palette-swatch-hex"><em>' . $edit1['hex'] . '</em></div>' . "\n";
     $expected .= '<div class="styleguide-palette-swatch-description">' . $edit1['description'] . '</div>' . "\n";
     $this->assertThemeOutput('styleguide_palette_swatch', $edit1, $expected);

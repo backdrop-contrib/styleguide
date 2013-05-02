@@ -12,7 +12,7 @@
  * @ingroup themeable
  */
 ?>
-<h3 class="styleguide-palette-swatch-name"><?php print $name; ?></h3>
 <div class="styleguide-palette-swatch-color" style="background-color: <?php print $hex; ?>;">&nbsp;</div>
+<h3 class="styleguide-palette-swatch-name"><?php print $name; ?></h3>
 <div class="styleguide-palette-swatch-hex"><em><?php print $hex; ?></em></div>
 <div class="styleguide-palette-swatch-description"><?php print $description; ?></div>
