@@ -9,13 +9,61 @@ function styleguide_styleguide() {
     'title' => t('Link'),
     'content' => styleguide_word(3, 'ucfirst') . ' ' . l(styleguide_word(3), 'node') . ' ' . styleguide_word(4) . '.',
   );
+  $items['b'] = array(
+    'title' => t('B'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <b>' . styleguide_word(3) . '</b> ' . styleguide_word(4) . '.',
+  );
+  $items['del'] = array(
+    'title' => t('Delete'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <del>' . styleguide_word(3) . '</del> ' . styleguide_word(4) . '.',
+  );
   $items['em'] = array(
     'title' => t('Emphasis'),
     'content' => styleguide_word(3, 'ucfirst') . ' <em>' . styleguide_word(3) . '</em> ' . styleguide_word(4) . '.',
   );
+  $items['figcaption'] = array(
+    'title' => t('Figcaption'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <figcaption>' . styleguide_word(3) . '</figcaption> ' . styleguide_word(4) . '.',
+  );
+  $items['figure'] = array(
+    'title' => t('Figure'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <figure>' . styleguide_word(3) . '</figure> ' . styleguide_word(4) . '.',
+  );
+  $items['hr'] = array(
+    'title' => t('hr'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <hr>' . styleguide_word(3) . '</hr> ' . styleguide_word(4) . '.',
+  );
+  $items['i'] = array(
+    'title' => t('Italic'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <i>' . styleguide_word(3) . '</i> ' . styleguide_word(4) . '.',
+  );
+  $items['q'] = array(
+    'title' => t('Quote'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <q>' . styleguide_word(3) . '</q> ' . styleguide_word(4) . '.',
+  );
+  $items['s'] = array(
+    'title' => t('Strikethrough'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <s>' . styleguide_word(3) . '</s> ' . styleguide_word(4) . '.',
+  );
+  $items['small'] = array(
+    'title' => t('Small'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <small>' . styleguide_word(3) . '</small> ' . styleguide_word(4) . '.',
+  );
   $items['strong'] = array(
     'title' => t('Strong'),
     'content' => styleguide_word(3, 'ucfirst') . ' <strong>' . styleguide_word(3) . '</strong> ' . styleguide_word(4) . '.',
+  );
+  $items['sub'] = array(
+    'title' => t('Subscript'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <sub>' . styleguide_word(1) . '</sub> ' . styleguide_word(4) . '.',
+  );
+  $items['sup'] = array(
+    'title' => t('Superscript'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <sup>' . styleguide_word(1) . '</sup> ' . styleguide_word(4) . '.',
+  );
+  $items['u'] = array(
+    'title' => t('Underline'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <u>' . styleguide_word(3) . '</u> ' . styleguide_word(4) . '.',
   );
   $items['ul'] = array(
     'title' => t('Unordered list'),
