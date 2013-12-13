@@ -13,7 +13,7 @@
  *   fallback to the default theme.
  */
 function styleguide_palette_page($theme = NULL) {
-  $theme = $theme ?: variable_get('theme_default', 'bartik');
+  $theme = $theme ? $theme : variable_get('theme_default', 'bartik');
   return array(
     '#theme' => 'styleguide_palette',
     '#swatches' => styleguide_palette($theme),
@@ -49,7 +49,7 @@ function styleguide_palette_form($form, &$form_state, $theme = NULL) {
     ),
   );
 
-  $theme = $theme ?: variable_get('theme_default', 'bartik');
+  $theme = $theme ? $theme : variable_get('theme_default', 'bartik');
   $swatches = array();
   $results = styleguide_palette_swatch_load_multiple($theme);
   foreach ($results as $swatch) {
