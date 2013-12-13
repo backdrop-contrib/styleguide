@@ -681,3 +681,29 @@ function styleguide_ul_links() {
   return $links;
 }
 
+/**
+ * Implements hook_block_info().
+ */
+function styleguide_block_info() {
+  $blocks['styleguide'] = array(
+    'info' => t('Styleguide'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function styleguide_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'styleguide':
+      global $theme_info;
+      $block['subject'] = t('Block styles for %theme', array('%theme' => $theme_info->name));
+      $block['content'] = styleguide_page($theme_info->name);
+      break;
+  }
+  return $block;
+}
