@@ -11,6 +11,9 @@
 function image_styleguide() {
   $items = array();
 
+  // Shortcut this.
+  return $items;
+
   // Get the sample file provided by the module.
   if (file_destination('public://styleguide-preview.jpg', FILE_EXISTS_ERROR) !== FALSE) {
     // Move the image so that styles may be applied.
@@ -21,7 +24,7 @@ function image_styleguide() {
   foreach (image_style_options(FALSE) as $stylename => $style) {
     $items['image_' . $stylename] = array(
       'title' => t('Image style, @stylename', array('@stylename' => $stylename)),
-      'content' => theme('image_style', array('path' => 'public://styleguide-preview.jpg', 'style_name' => $stylename)),
+      'content' => theme('image_style', array('uri' => 'public://styleguide-preview.jpg', 'style_name' => $stylename)),
       'group' => t('Media')
     );
   }

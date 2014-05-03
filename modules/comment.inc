@@ -24,7 +24,7 @@ function comment_styleguide() {
   $name = styleguide_word(2);
   $render = array(
     '#theme' => 'comment',
-    '#comment' => (object) array(
+    '#comment' => new Comment(array(
       'cid' => 0,
       'pid' => 0,
       'nid' => 1,
@@ -46,8 +46,8 @@ function comment_styleguide() {
       'signature_format' => NULL,
       'picture' => 0,
       'new' => 0,
-    ),
-    '#node' => (object) array('nid' => 1, 'type' => 'styleguide'),
+    )),
+    '#node' => new Node(array('nid' => 1, 'type' => 'styleguide')),
   );
   $render['body'] = array('#markup' => styleguide_paragraph(2));
   $items['comment'] = array(

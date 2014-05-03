@@ -163,7 +163,7 @@ function styleguide_page($theme = NULL) {
     $item['title'] = t('@title', array('@title' => $item['title']));
     $groups[$item['group']][$key] = $item;
   }
-  ksort($groups);
+  //ksort($groups);
   // Create a navigation header.
   $header = array();
   $head = '';
@@ -475,6 +475,13 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
     '#default_value' => styleguide_word(3, 'ucfirst'),
     '#description' => styleguide_sentence(),
   );
+  $form['disabled'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Disabled'),
+    '#default_value' => styleguide_word(3, 'ucfirst'),
+    '#description' => styleguide_sentence(),
+    '#disabled' => TRUE,
+  );
   $form['autocomplete'] = array(
     '#type' => 'textfield',
     '#title' => t('Autocomplete textfield'),
@@ -526,13 +533,6 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
   );
   $form['password_confirm'] = array(
     '#type' => 'password_confirm',
-    '#title' => t('Password confirm'),
-  );
-  $form['weight'] = array(
-    '#type' => 'weight',
-    '#title' => t('Weight'),
-    '#delta' => 10,
-    '#description' => styleguide_sentence(),
   );
   $form['fieldset-collapsed'] = array(
     '#type' => 'fieldset',
@@ -580,17 +580,49 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
   );
   $form['image_button'] = array(
     '#type' => 'image_button',
-    '#src' => 'misc/druplicon.png',
+    '#src' => 'core/misc/message-24-ok.png',
     '#attributes' => array('height' => 20),
     '#name' => t('Image button'),
   );
-  $form['submit'] = array(
+  $form['actions'] = array(
+    '#type' => 'actions',
+  );
+  $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Submit'),
+    '#attributes' => array('class' => array('primary')),
+  );
+  $form['actions']['preview'] = array(
+    '#type' => 'submit',
+    '#value' => t('Preview'),
+  );
+  $form['actions']['delete'] = array(
+    '#type' => 'link',
+    '#title' => t('Delete'),
+    '#href' => 'delete',
+    '#attributes' => array('class' => array('danger')),
   );
   $form['button'] = array(
     '#type' => 'button',
     '#value' => t('Button'),
+  );
+
+  $links = array();
+  $links['edit'] = array(
+    'href' => 'edit',
+    'title' => t('Edit'),
+  );
+  $links['clone'] = array(
+    'href' => 'clone',
+    'title' => t('Clone'),
+  );
+  $links['delete'] = array(
+    'href' => 'delete',
+    'title' => t('Delete'),
+  );
+  $form['dropbutton'] = array(
+    '#type' => 'dropbutton',
+    '#links' => $links,
   );
   if (!empty($form_keys)) {
     $items = array();
@@ -621,6 +653,21 @@ function styleguide_pager($size = 8, $total = 20) {
   // For some reason, the pager breaks the page title.
   drupal_set_title('Style guide');
   return theme('pager', array('element' => 1));
+}
+
+/**
+ * Output a dialog markup.
+ */
+function styleguide_dialog() {
+  drupal_add_library('system', 'backdrop.dialog');
+  drupal_add_js('jQuery(document).ready(function() { jQuery("#styleguide-dialog").dialog({ title: "Dialog title", position: { within: "#styleguide-dialog-wrapper" }, draggable: false, open: function() { window.scrollTo(0, 0); } }); });', 'inline');
+
+  $output = '';
+  $output .= '<div id="styleguide-dialog-wrapper" style="height: 200px;">';
+  $output .= '<div id="styleguide-dialog">' . styleguide_sentence() . '</div>';
+  $output .= '</div>';
+
+  return $output;
 }
 
 /**
@@ -706,4 +753,15 @@ function styleguide_block_view($delta = '') {
       break;
   }
   return $block;
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function styleguide_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'styleguide') {
+    $group = $implementations['styleguide'];
+    unset($implementations['styleguide']);
+    $implementations = array_merge(array('styleguide' => $group), $implementations);
+  }
 }

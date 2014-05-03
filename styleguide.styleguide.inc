@@ -89,86 +89,16 @@ function styleguide_styleguide() {
     'variables' => array('items' => styleguide_list(), 'type' => 'ol', 'title' => styleguide_word(3, 'ucfirst')),
     'group' => t('Lists'),
   );
-  $items['ul_long'] = array(
-    'title' => t('Unordered list with wrapped list items'),
-    'theme' => 'item_list',
-    'variables' => array('items' => styleguide_list(3, 120), 'type' => 'ul'),
-    'group' => t('Lists'),
-  );
-  $items['ol_long'] = array(
-    'title' => t('Ordered list with wrapped list items'),
-    'theme' => 'item_list',
-    'variables' => array('items' => styleguide_list(3, 120), 'type' => 'ol'),
-    'group' => t('Lists'),
-  );
-  $items['ul_links'] = array(
-    'title' => t('Unordered list with links'),
-    'theme' => 'links',
-    'variables' => array(
-      'links' => styleguide_ul_links(),
-    ),
-    'group' => t('Lists'),
-  );
-  $items['ul_links_inline'] = array(
-    'title' => t('Unordered inline list with links'),
-    'theme' => 'links',
-    'variables' => array(
-      'links' => styleguide_ul_links(),
-      'attributes' => array(
-        'class' => array(
-          'inline',
-        ),
-      ),
-    ),
-    'group' => t('Lists'),
-  );
-  $items['menu_tree'] = array(
-    'title' => t('Menu tree'),
-    'content' => menu_tree('management'),
-    'group' => t('Menus'),
-  );
-  $items['menu_link'] = array(
-    'title' => t('Menu link'),
-    'content' => theme('menu_link', array('element' => styleguide_menu_item($current_url))),
-    'group' => t('Menus')
-  );
   $items['table'] = array(
     'title' => t('Table'),
     'theme' => 'table',
     'variables' => array('caption' => styleguide_word(3), 'header' => styleguide_header(), 'rows' => styleguide_rows()),
     'group' => t('Tables'),
   );
-  $items['text'] = array(
-    'title' => t('Text block'),
-    'content' => styleguide_paragraph(3),
-    'group' => t('Text'),
-  );
   $items['blockquote'] = array(
     'title' => t('Blockquote'),
     'content' => styleguide_paragraph(1) . '<blockquote>' . styleguide_paragraph(1) . '</blockquote>' . styleguide_paragraph(1),
     'group' => t('Text'),
-  );
-  $items['image-horizontal'] = array(
-    'title' => t('Image, horizontal'),
-    'theme' => 'image',
-    'variables' => array('path' => styleguide_image('horizontal'), 'alt' => t('My image'), 'title' => t('My image')),
-    'group' => t('Media'),
-  );
-  $items['image-vertical'] = array(
-    'title' => t('Image, vertical'),
-    'theme' => 'image',
-    'variables' => array('path' => styleguide_image('vertical'), 'alt' => t('My image'), 'title' => t('My image')),
-    'group' => t('Media'),
-  );
-  $items['image-inset-horizontal'] = array(
-    'title' => t('Image, horizontal, within text'),
-    'content' => styleguide_paragraph(1) . theme('image', array('path' => styleguide_image('horizontal'), 'alt' => t('My image'), 'title' => t('My image'))) . styleguide_paragraph(2),
-    'group' => t('Media'),
-  );
-  $items['image-inset-vertical'] = array(
-    'title' => t('Image, vertical, within text'),
-    'content' => styleguide_paragraph(1) . theme('image', array('path' => styleguide_image('vertical'), 'alt' => t('My image'), 'title' => t('My image'))) . styleguide_paragraph(2),
-    'group' => t('Media'),
   );
   $content = '';
   for ($i = 1; $i <=6; $i++) {
@@ -176,15 +106,6 @@ function styleguide_styleguide() {
   }
   $items['headings'] = array(
     'title' => "Headings",
-    'content' => $content,
-    'group' => t('Text'),
-  );
-  $content = '';
-  for ($i = 1; $i <=6; $i++) {
-    $content .= "<h$i>" . "h$i: " . implode(' ', styleguide_list()) . "</h$i>" . styleguide_paragraph(1);
-  }
-  $items['headings_text'] = array(
-    'title' => "Headings with text",
     'content' => $content,
     'group' => t('Text'),
   );
@@ -213,7 +134,7 @@ function styleguide_styleguide() {
       $tabs[] = $key;
     }
     // We skip these.
-    elseif (in_array($elements[$key]['#type'], array('button', 'submit', 'image_button'))) {
+    elseif (in_array($elements[$key]['#type'], array('button', 'actions', 'submit', 'dropbutton', 'image_button'))) {
       $buttons[] = $key;
     }
     else {
@@ -226,8 +147,8 @@ function styleguide_styleguide() {
     'group' => t('Forms'),
   );
   $items['form-submit'] = array(
-    'title' => t('Forms, submit'),
-    'content' => drupal_get_form('styleguide_form', array('submit')),
+    'title' => t('Forms, actions'),
+    'content' => drupal_get_form('styleguide_form', array('actions')),
     'group' => t('Forms'),
   );
   $items['form-button'] = array(
@@ -238,6 +159,11 @@ function styleguide_styleguide() {
   $items['form-image-button'] = array(
     'title' => t('Forms, image button'),
     'content' => drupal_get_form('styleguide_form', array('image_button')),
+    'group' => t('Forms'),
+  );
+  $items['dropbutton'] = array(
+    'title' => t('Forms, dropbutton'),
+    'content' => drupal_get_form('styleguide_form', array('dropbutton')),
     'group' => t('Forms'),
   );
   $items['form-markup'] = array(
@@ -255,22 +181,6 @@ function styleguide_styleguide() {
     'content' => drupal_get_form('styleguide_form', $tabs),
     'group' => t('Forms'),
   );
-  $items['feed_icon'] = array(
-    'title' => t('Feed icon'),
-    'content' => theme('feed_icon', array('url' => url('rss.xml'), 'title' => t('Syndicate'))),
-    'group' => t('System')
-  );
-  // This item kills drupal_set_message. The messages are displayed here.
-  $items['maintenance_page'] = array(
-    'title' => t('Maintenance page'),
-    'content' => theme('maintenance_page', array('content' => styleguide_paragraph(2))),
-    'group' => t('System')
-  );
-  $items['system_powered_by'] = array(
-    'title' => t('System powered by'),
-    'content' => theme('system_powered_by'),
-    'group' => t('System')
-  );
   $items['confirm_form'] = array(
     'title' => t('Confirm form'),
     'content' => drupal_get_form('confirm_form', array('path' => '')),
@@ -285,6 +195,11 @@ function styleguide_styleguide() {
     'title' => t('Progress bar'),
     'content' => theme('progress_bar', array('percent' => 57, 'message' => styleguide_sentence(2))),
     'group' => t('User interface')
+  );
+  $items['dialog'] = array(
+    'title' => t('Dialog'),
+    'content' => styleguide_dialog(),
+    'group' => t('User interface'),
   );
   // Use alternative item name to avoid conflict with main breadcrumb.
   $items['styleguide_breadcrumb'] = array(

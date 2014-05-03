@@ -37,6 +37,9 @@ function filter_styleguide() {
     'content' => styleguide_filter_tips(FALSE),
     'group' => t('System')
   );
+
+  return $items;
+
   // Show the long version.
   $items['filter_tips_long'] = array(
     'title' => t('Filter tips, long'),
