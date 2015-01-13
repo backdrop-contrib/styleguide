@@ -24,7 +24,7 @@ function styleguide_help($path, $arg) {
  * Implements hook_menu().
  */
 function styleguide_menu() {
-  $default = variable_get('theme_default', 'bartik');
+  $default = config_get('system.core', 'theme_default');
   $items['admin/appearance/styleguide'] = array(
     'title' => 'Style guide',
     'page callback' => 'styleguide_page',
@@ -112,7 +112,7 @@ function styleguide_access_check($theme) {
   if (!user_access('view style guides')) {
     return FALSE;
   }
-  if (drupal_theme_access($theme)) {
+  if (backdrop_theme_access($theme)) {
     return TRUE;
   }
   return FALSE;
@@ -123,13 +123,11 @@ function styleguide_access_check($theme) {
  */
 function styleguide_page($theme = NULL) {
   // Get the path to the module for loading includes.
-  $path = drupal_get_path('module', 'styleguide');
-
-  // TODO: notice about the Overlay module?
+  $path = backdrop_get_path('module', 'styleguide');
 
   // Check the theme.
   if (is_null($theme)) {
-    $theme = variable_get('theme_default', 'bartik');
+    $theme = config_get('system.core', 'theme_default');
   }
 
   // Get theme data.
@@ -146,11 +144,11 @@ function styleguide_page($theme = NULL) {
 
   // Get visual testing elements.
   $items = module_invoke_all('styleguide');
-  drupal_alter('styleguide', $items);
+  backdrop_alter('styleguide', $items);
 
   // Get theme style information.
   $theme_info = $active->info;
-  drupal_alter('styleguide_theme_info', $theme_info, $theme);
+  backdrop_alter('styleguide_theme_info', $theme_info, $theme);
 
   $groups = array();
   foreach ($items as $key => $item) {
@@ -177,7 +175,7 @@ function styleguide_page($theme = NULL) {
       if (isset($item['theme'])) {
         $display = theme($item['theme'], $item['variables']);
       }
-      // Output a standard HTML tag. In Drupal 7, the preference
+      // Output a standard HTML tag. In Backdrop, the preference
       // is to pass theme('html_tag') instead. This is kept for API
       // compatibility with Drupal 6.
       elseif (isset($item['tag']) && isset($item['content'])) {
@@ -185,12 +183,12 @@ function styleguide_page($theme = NULL) {
           $display = '<' . $item['tag'] . '>' . $item['content'] . '</' . $item['tag'] . '>';
         }
         else {
-          $display = '<' . $item['tag'] . ' ' . drupal_attributes($item['attributes']) . '>' . $item['content'] . '</' . $item['tag'] . '>';
+          $display = '<' . $item['tag'] . ' ' . backdrop_attributes($item['attributes']) . '>' . $item['content'] . '</' . $item['tag'] . '>';
         }
       }
       // Support a renderable array for content.
       elseif (isset($item['content']) && is_array($item['content'])) {
-        $display = drupal_render($item['content']);
+        $display = backdrop_render($item['content']);
       }
       // Just print the provided content.
       elseif (isset($item['content'])) {
@@ -378,10 +376,10 @@ function styleguide_paragraph($size = 5) {
  * @param $type
  *   The file type, (jpg, png, gif). Do not include a dot.
  * @return
- *    The Drupal path to the file.
+ *    The Backdrop path to the file.
  */
 function styleguide_image($image = 'vertical', $type = 'jpg') {
-  $path = drupal_get_path('module', 'styleguide');
+  $path = backdrop_get_path('module', 'styleguide');
   $filepath = $path . '/assets/image-' . $image . '.' . $type;
   if (file_exists($filepath)) {
     return $filepath;
@@ -637,21 +635,21 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
 }
 
 /**
- * Simulate Drupal pagination,
+ * Simulate Backdrop pagination,
  *
  * @param $size
  *   The number of page numbers to display.
  * @param $total
  *   The total number of pages to simulate.
  * @return
- *   A Drupal pager HTML element.
+ *   A Backdrop pager HTML element.
  */
 function styleguide_pager($size = 8, $total = 20) {
   global $pager_page_array, $pager_total;
   $pager_page_array[1] = $size;
   $pager_total[1] = $total;
   // For some reason, the pager breaks the page title.
-  drupal_set_title('Style guide');
+  backdrop_set_title('Style guide');
   return theme('pager', array('element' => 1));
 }
 
@@ -659,8 +657,8 @@ function styleguide_pager($size = 8, $total = 20) {
  * Output a dialog markup.
  */
 function styleguide_dialog() {
-  drupal_add_library('system', 'backdrop.dialog');
-  drupal_add_js('jQuery(document).ready(function() { jQuery("#styleguide-dialog").dialog({ title: "Dialog title", position: { within: "#styleguide-dialog-wrapper" }, draggable: false, open: function() { window.scrollTo(0, 0); } }); });', 'inline');
+  backdrop_add_library('system', 'backdrop.dialog');
+  backdrop_add_js('jQuery(document).ready(function() { jQuery("#styleguide-dialog").dialog({ title: "Dialog title", position: { within: "#styleguide-dialog-wrapper" }, draggable: false, open: function() { window.scrollTo(0, 0); } }); });', 'inline');
 
   $output = '';
   $output .= '<div id="styleguide-dialog-wrapper" style="height: 200px;">';

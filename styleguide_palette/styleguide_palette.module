@@ -23,7 +23,7 @@ function styleguide_palette_menu() {
   );
   $items['admin/config/user-interface/styleguide-palette/edit'] = array(
     'title' => 'Edit',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('styleguide_palette_form'),
     'access arguments' => array('configure style guide palettes'),
     'file' => 'styleguide_palette.admin.inc',
@@ -32,12 +32,12 @@ function styleguide_palette_menu() {
   );
   $items['admin/config/user-interface/styleguide-palette/delete/%styleguide_palette_swatch'] = array(
     'title' => 'Delete swatch',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('styleguide_palette_swatch_delete_form', 5),
     'access arguments' => array('configure style guide palettes'),
     'file' => 'styleguide_palette.admin.inc',
   );
-  $default = variable_get('theme_default', 'bartik');
+  $default = config_get('system.core', 'theme_default');
   foreach (list_themes() as $theme) {
     if (!$theme->status) {
       continue;
@@ -55,7 +55,7 @@ function styleguide_palette_menu() {
     );
     $items["admin/config/user-interface/styleguide-palette/edit/$theme->name"] = array(
       'title' => $theme->info['name'],
-      'page callback' => 'drupal_get_form',
+      'page callback' => 'backdrop_get_form',
       'page arguments' => array('styleguide_palette_form', $theme->name),
       'access arguments' => array('configure style guide palettes'),
       'file' => 'styleguide_palette.admin.inc',
@@ -184,7 +184,7 @@ function styleguide_palette_theme($existing, $type, $theme, $path) {
  * Implements hook_preprocess_HOOK() for styleguide-palette.tpl.php.
  */
 function template_preprocess_styleguide_palette(&$variables) {
-  drupal_add_css(drupal_get_path('module', 'styleguide_palette') . '/css/styleguide_palette.css');
+  backdrop_add_css(backdrop_get_path('module', 'styleguide_palette') . '/css/styleguide_palette.css');
   $variables['empty'] = empty($variables['swatches']) ? t('There are no swatches yet.') : '';
   foreach ($variables['swatches'] as &$swatch) {
     $swatch = theme('styleguide_palette_swatch', $swatch);

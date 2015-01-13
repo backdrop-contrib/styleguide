@@ -15,7 +15,7 @@ function search_styleguide() {
 
   $items['search_block_form'] = array(
     'title' => t('Search block form'),
-    'content' => drupal_get_form('search_block_form'),
+    'content' => backdrop_get_form('search_block_form'),
     'group' => t('Search')
   );
   $items['search_no_results'] = array(

@@ -13,7 +13,7 @@
  *   fallback to the default theme.
  */
 function styleguide_palette_page($theme = NULL) {
-  $theme = $theme ? $theme : variable_get('theme_default', 'bartik');
+  $theme = $theme ? $theme : config_get('system.core', 'theme_default');
   return array(
     '#theme' => 'styleguide_palette',
     '#swatches' => styleguide_palette($theme),
@@ -44,7 +44,7 @@ function styleguide_palette_form($form, &$form_state, $theme = NULL) {
         array('system', 'farbtastic'),
       ),
       'js' => array(
-        drupal_get_path('module', 'styleguide_palette') . '/js/styleguide_palette.js',
+        backdrop_get_path('module', 'styleguide_palette') . '/js/styleguide_palette.js',
       ),
     ),
   );
@@ -156,7 +156,7 @@ function styleguide_palette_form_submit($form, &$form_state) {
   $form_state['values'] += array('palette' => array());
   foreach ($form_state['values']['palette'] as $name => $swatch) {
     $swatch['name'] = $name;
-    drupal_write_record('styleguide_palette_swatch', $swatch, 'id');
+    backdrop_write_record('styleguide_palette_swatch', $swatch, 'id');
   }
 
   $new_swatch = array_intersect_key(array_filter($form_state['values']), array_flip(array('name', 'description', 'hex', 'theme')));
@@ -164,11 +164,11 @@ function styleguide_palette_form_submit($form, &$form_state) {
   // actually added.
   $swatch_updated = array_intersect_key($new_swatch, array_flip(array('name', 'hex')));
   if (!empty($swatch_updated)) {
-    drupal_write_record('styleguide_palette_swatch', $new_swatch);
-    drupal_set_message(t('Style guide swatches added.'));
+    backdrop_write_record('styleguide_palette_swatch', $new_swatch);
+    backdrop_set_message(t('Style guide swatches added.'));
   }
   elseif (!empty($form_state['values']['palette'])) {
-    drupal_set_message(t('Style guide palette updated.'));
+    backdrop_set_message(t('Style guide palette updated.'));
   }
 }
 
@@ -201,6 +201,6 @@ function styleguide_palette_swatch_delete_form_submit($form, &$form_state) {
   $swatch = styleguide_palette_swatch_load($form_state['values']['swatch_id']);
   styleguide_palette_swatch_delete($form_state['values']['swatch_id']);
   watchdog('styleguid_palette', 'Deleted %title.', array('%title' => $swatch['name']));
-  drupal_set_message(t('%title has been deleted.', array('%title' => $swatch['name'])));
+  backdrop_set_message(t('%title has been deleted.', array('%title' => $swatch['name'])));
   $form_state['redirect'] = 'admin/config/user-interface/styleguide-palette/edit/' . $swatch['theme'];
 }

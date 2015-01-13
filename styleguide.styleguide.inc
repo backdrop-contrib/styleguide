@@ -143,47 +143,47 @@ function styleguide_styleguide() {
   }
   $items['form'] = array(
     'title' => t('Forms, basic'),
-    'content' => drupal_get_form('styleguide_form', $basic),
+    'content' => backdrop_get_form('styleguide_form', $basic),
     'group' => t('Forms'),
   );
   $items['form-submit'] = array(
     'title' => t('Forms, actions'),
-    'content' => drupal_get_form('styleguide_form', array('actions')),
+    'content' => backdrop_get_form('styleguide_form', array('actions')),
     'group' => t('Forms'),
   );
   $items['form-button'] = array(
     'title' => t('Forms, button'),
-    'content' => drupal_get_form('styleguide_form', array('button')),
+    'content' => backdrop_get_form('styleguide_form', array('button')),
     'group' => t('Forms'),
   );
   $items['form-image-button'] = array(
     'title' => t('Forms, image button'),
-    'content' => drupal_get_form('styleguide_form', array('image_button')),
+    'content' => backdrop_get_form('styleguide_form', array('image_button')),
     'group' => t('Forms'),
   );
   $items['dropbutton'] = array(
     'title' => t('Forms, dropbutton'),
-    'content' => drupal_get_form('styleguide_form', array('dropbutton')),
+    'content' => backdrop_get_form('styleguide_form', array('dropbutton')),
     'group' => t('Forms'),
   );
   $items['form-markup'] = array(
     'title' => t('Forms, markup'),
-    'content' => drupal_get_form('styleguide_form', $markup),
+    'content' => backdrop_get_form('styleguide_form', $markup),
     'group' => t('Forms'),
   );
   $items['form-fieldsets'] = array(
     'title' => t('Forms, fieldsets'),
-    'content' => drupal_get_form('styleguide_form', $fieldsets),
+    'content' => backdrop_get_form('styleguide_form', $fieldsets),
     'group' => t('Forms'),
   );
   $items['form-vertical-tabs'] = array(
     'title' => t('Forms, vertical tabs'),
-    'content' => drupal_get_form('styleguide_form', $tabs),
+    'content' => backdrop_get_form('styleguide_form', $tabs),
     'group' => t('Forms'),
   );
   $items['confirm_form'] = array(
     'title' => t('Confirm form'),
-    'content' => drupal_get_form('confirm_form', array('path' => '')),
+    'content' => backdrop_get_form('confirm_form', array('path' => '')),
     'group' => t('System')
   );
   $items['pager'] = array(
@@ -204,7 +204,7 @@ function styleguide_styleguide() {
   // Use alternative item name to avoid conflict with main breadcrumb.
   $items['styleguide_breadcrumb'] = array(
     'title' => t('Breadcrumb'),
-    'content' => theme('breadcrumb', array('breadcrumb' => drupal_get_breadcrumb())),
+    'content' => theme('breadcrumb', array('breadcrumb' => backdrop_get_breadcrumb())),
     'group' => t('User interface')
   );
   $items['link'] = array(

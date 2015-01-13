@@ -2,7 +2,7 @@
 
 "use strict";
 
-Drupal.behaviors.styleguidePalette = {
+Backdrop.behaviors.styleguidePalette = {
   attach: function() {
     var farb = $.farbtastic('#styleguide-palette-colorpicker');
     $('.colorpicker-input').each(function() {

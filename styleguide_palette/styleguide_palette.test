@@ -8,7 +8,7 @@
 /**
  * Provides a base class for Style guide palette tests.
  */
-class StyleguidePaletteTestBase extends DrupalWebTestCase {
+class StyleguidePaletteTestBase extends BackdropWebTestCase {
 
   protected $profile = 'testing';
 
@@ -91,9 +91,9 @@ class StyleguidePaletteTest extends StyleguidePaletteTestBase {
   protected function setUp() {
     parent::setUp();
 
-    $this->webUser = $this->drupalCreateUser(array('view style guides'));
-    $this->adminUser = $this->drupalCreateUser(array('view style guides', 'configure style guide palettes'));
-    $this->drupalLogin($this->adminUser);
+    $this->webUser = $this->backdropCreateUser(array('view style guides'));
+    $this->adminUser = $this->backdropCreateUser(array('view style guides', 'configure style guide palettes'));
+    $this->backdropLogin($this->adminUser);
   }
 
   /**
@@ -101,7 +101,7 @@ class StyleguidePaletteTest extends StyleguidePaletteTestBase {
    */
   protected function testAddingSwatches() {
     // Check the palette page before any have been added.
-    $this->drupalGet('admin/config/user-interface/styleguide-palette');
+    $this->backdropGet('admin/config/user-interface/styleguide-palette');
     $this->assertText(t('There are no swatches yet.'));
 
     // Add a new swatch.
@@ -111,13 +111,13 @@ class StyleguidePaletteTest extends StyleguidePaletteTestBase {
       'description' => $this->randomName(),
       'hex' => '#123456',
     );
-    $this->drupalPost('admin/config/user-interface/styleguide-palette/edit', $edit, t('Save palette'));
+    $this->backdropPost('admin/config/user-interface/styleguide-palette/edit', $edit, t('Save palette'));
     $this->assertText(t('Style guide swatches added.'));
     $this->assertFieldByXPath('//input[@name="palette[' . $edit['name'] . '][hex]"]', $edit['hex'], 'The newly added color swatch is shown.');
 
     // View an existing swatch as a regular user.
-    $this->drupalLogin($this->webUser);
-    $this->drupalGet('admin/config/user-interface/styleguide-palette');
+    $this->backdropLogin($this->webUser);
+    $this->backdropGet('admin/config/user-interface/styleguide-palette');
 
     $this->assertRaw('<h3 class="styleguide-palette-swatch-name">' . $edit['name'] . '</h3>', 'The swatch name is found.');
     $this->assertRaw('<div class="styleguide-palette-swatch-color" style="background-color: ' . $edit['hex'] . ';">&nbsp;</div>', 'The swatch sample is found.');
@@ -135,12 +135,12 @@ class StyleguidePaletteTest extends StyleguidePaletteTestBase {
       'description' => $this->randomName(),
       'hex' => '#123456',
     );
-    $this->drupalPost('admin/config/user-interface/styleguide-palette/edit', $edit, t('Save palette'));
+    $this->backdropPost('admin/config/user-interface/styleguide-palette/edit', $edit, t('Save palette'));
 
     $edit = array(
       "palette[$name][hex]" => '#654321',
     );
-    $this->drupalPost(NULL, $edit, t('Save palette'));
+    $this->backdropPost(NULL, $edit, t('Save palette'));
     $this->assertText(t('Style guide palette updated.'));
     $this->assertFieldByXPath('//input[@name="palette[' . $name . '][hex]"]', '#654321', 'The newly added color swatch is shown.');
   }
@@ -156,11 +156,11 @@ class StyleguidePaletteTest extends StyleguidePaletteTestBase {
       'description' => $this->randomName(),
       'hex' => '#123456',
     );
-    $this->drupalPost('admin/config/user-interface/styleguide-palette/edit', $edit, t('Save palette'));
+    $this->backdropPost('admin/config/user-interface/styleguide-palette/edit', $edit, t('Save palette'));
 
     $this->clickLink(t('Delete'));
     $this->assertRaw(t('Are you sure you want to delete %name?', array('%name' => $name)));
-    $this->drupalPost(NULL, array(), t('Delete'));
+    $this->backdropPost(NULL, array(), t('Delete'));
     $this->assertRaw(t('%name has been deleted.', array('%name' => $name)));
     $this->assertNoFieldByXPath('//input[@name="palette[' . $name . '][hex]"]', '#123456', 'The deleted color swatch is not shown.');
   }
@@ -172,14 +172,14 @@ class StyleguidePaletteTest extends StyleguidePaletteTestBase {
     $edit = array(
       'name' => $this->randomName(),
     );
-    $this->drupalPost('admin/config/user-interface/styleguide-palette/edit', $edit, t('Save palette'));
+    $this->backdropPost('admin/config/user-interface/styleguide-palette/edit', $edit, t('Save palette'));
     $this->assertText(t('Missing swatch hex value.'));
     $this->assertNoText(t('Style guide swatches added.'));
 
     $edit = array(
       'hex' => '#123456',
     );
-    $this->drupalPost('admin/config/user-interface/styleguide-palette/edit', $edit, t('Save palette'));
+    $this->backdropPost('admin/config/user-interface/styleguide-palette/edit', $edit, t('Save palette'));
     $this->assertText(t('Missing swatch name.'));
     $this->assertNoText(t('Style guide swatches added.'));
 
@@ -187,7 +187,7 @@ class StyleguidePaletteTest extends StyleguidePaletteTestBase {
       'name' => $this->randomName(),
       'hex' => '#12345',
     );
-    $this->drupalPost('admin/config/user-interface/styleguide-palette/edit', $edit, t('Save palette'));
+    $this->backdropPost('admin/config/user-interface/styleguide-palette/edit', $edit, t('Save palette'));
     $this->assertRaw(t('%name must be a valid hexadecimal CSS color value.', array('%name' => 'Hex value')));
     $this->assertNoText(t('Style guide swatches added.'));
   }
@@ -201,9 +201,9 @@ class StyleguidePaletteTest extends StyleguidePaletteTestBase {
       'name' => $this->randomName(),
       'hex' => '#123456',
     );
-    $this->drupalPost('admin/config/user-interface/styleguide-palette/edit/stark', $edit, t('Save palette'));
+    $this->backdropPost('admin/config/user-interface/styleguide-palette/edit/stark', $edit, t('Save palette'));
     $this->assertFieldByXPath('//input[@name="palette[' . $edit['name'] . '][hex]"]', $edit['hex'], 'The newly added color swatch is shown.');
-    $this->drupalGet('admin/config/user-interface/styleguide-palette/edit');
+    $this->backdropGet('admin/config/user-interface/styleguide-palette/edit');
     $this->assertNoFieldByXPath('//input[@name="palette[' . $edit['name'] . '][hex]"]', $edit['hex'], 'The color swatch is only shown for its theme.');
   }
 
@@ -224,13 +224,13 @@ class StyleguidePaletteTest extends StyleguidePaletteTestBase {
       'description' => $this->randomName(),
       'hex' => '#123456',
     );
-    $this->drupalPost('admin/config/user-interface/styleguide-palette/edit', $edit1, t('Save palette'));
+    $this->backdropPost('admin/config/user-interface/styleguide-palette/edit', $edit1, t('Save palette'));
     $edit2 = array(
       'name' => $this->randomName(),
       'description' => $this->randomName(),
       'hex' => '#654321',
     );
-    $this->drupalPost('admin/config/user-interface/styleguide-palette/edit', $edit2, t('Save palette'));
+    $this->backdropPost('admin/config/user-interface/styleguide-palette/edit', $edit2, t('Save palette'));
 
     $expected = '';
     $expected .= '<div class="styleguide-palette-swatch-color" style="background-color: ' . $edit1['hex'] . ';">&nbsp;</div>' . "\n";

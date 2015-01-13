@@ -11,7 +11,7 @@ function comment_styleguide() {
   $conf['comment_form_location_-styleguide-'] = COMMENT_FORM_SEPARATE_PAGE;
   $conf['user_register'] = TRUE;
 
-  $authenticated_post_comments = &drupal_static('theme_comment_post_forbidden', NULL);
+  $authenticated_post_comments = &backdrop_static('theme_comment_post_forbidden', NULL);
   $authenticated_post_comments = TRUE;
   $items['comment_post_forbidden'] = array(
     'title' => t('Comment post forbidden'),
@@ -52,7 +52,7 @@ function comment_styleguide() {
   $render['body'] = array('#markup' => styleguide_paragraph(2));
   $items['comment'] = array(
     'title' => t('Comment'),
-    'content' => drupal_render($render),
+    'content' => backdrop_render($render),
     'group' => t('Comment'),
   );
 

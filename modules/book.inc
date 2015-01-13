@@ -4,7 +4,7 @@
  * Implements hook_styleguide().
  */
 function book_styleguide() {
-  $flat = &drupal_static('book_get_flat_menu', array());
+  $flat = &backdrop_static('book_get_flat_menu', array());
   $flat = array(
     1 => array(
       2 => array(
