@@ -5,11 +5,11 @@
  */
 function comment_styleguide() {
   global $conf, $user;
-  $user_register = $conf['user_register'];
+  $user_register = config_get('system.core', 'user_register');
   $account = clone $user;
   $user->uid = 0;
   $conf['comment_form_location_-styleguide-'] = COMMENT_FORM_SEPARATE_PAGE;
-  $conf['user_register'] = TRUE;
+  config_set('system.core', 'user_register', TRUE);
 
   $authenticated_post_comments = &backdrop_static('theme_comment_post_forbidden', NULL);
   $authenticated_post_comments = TRUE;
@@ -19,7 +19,7 @@ function comment_styleguide() {
     'group' => t('Comment'),
   );
   $user = $account;
-  $conf['user_register'] = $user_register;
+  config_set('system.core', 'user_register', $user_register);
 
   $name = styleguide_word(2);
   $render = array(

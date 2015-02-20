@@ -1,10 +1,15 @@
 <?php
+/**
+ * @file
+ * Provides common elements in style guide for all themes.
+ */
 
 /**
  * Implements hook_styleguide().
  */
 function styleguide_styleguide() {
   $current_url = request_path();
+
   $items['a'] = array(
     'title' => t('Link'),
     'content' => styleguide_word(3, 'ucfirst') . ' ' . l(styleguide_word(3), 'node') . ' ' . styleguide_word(4) . '.',
@@ -20,14 +25,6 @@ function styleguide_styleguide() {
   $items['em'] = array(
     'title' => t('Emphasis'),
     'content' => styleguide_word(3, 'ucfirst') . ' <em>' . styleguide_word(3) . '</em> ' . styleguide_word(4) . '.',
-  );
-  $items['figcaption'] = array(
-    'title' => t('Figcaption'),
-    'content' => styleguide_word(3, 'ucfirst') . ' <figcaption>' . styleguide_word(3) . '</figcaption> ' . styleguide_word(4) . '.',
-  );
-  $items['figure'] = array(
-    'title' => t('Figure'),
-    'content' => styleguide_word(3, 'ucfirst') . ' <figure>' . styleguide_word(3) . '</figure> ' . styleguide_word(4) . '.',
   );
   $items['hr'] = array(
     'title' => t('hr'),
@@ -65,6 +62,44 @@ function styleguide_styleguide() {
     'title' => t('Underline'),
     'content' => styleguide_word(3, 'ucfirst') . ' <u>' . styleguide_word(3) . '</u> ' . styleguide_word(4) . '.',
   );
+  $items['code'] = array(
+    'title' => t('Code (inline)'),
+    'content' => styleguide_word(3, 'ucfirst') . ' <code>' . styleguide_word(3) . '</code> ' . styleguide_word(4) . '.',
+  );
+
+  $figure  = '<figure>';
+  if (module_exists('image')) {
+    $figure .= theme('image_style', array('style_name' => 'medium', 'uri' => backdrop_get_path('module', 'image') . '/images/sample.png'));
+  }
+  $figure .= '  <figcaption>' . t('Balloons in the Napa valley.') . '</figcaption>';
+  $figure .= '</figure>';
+  $items['figure'] = array(
+    'title' => t('Figure / Caption'),
+    'content' => $figure,
+    'group' => t('Common'),
+  );
+
+  $items['blockquote'] = array(
+    'title' => t('Blockquote'),
+    'content' => styleguide_paragraph(1) . '<blockquote>' . styleguide_paragraph(1) . '</blockquote>' . styleguide_paragraph(1),
+    'group' => t('Common'),
+  );
+  $items['Code block (monospace)'] = array(
+    'title' => t('Monospace'),
+    'content' => styleguide_paragraph(1) . ' <code>' . styleguide_paragraph(1) . '</code> ' . styleguide_paragraph(1) . '.',
+    'group' => t('Common'),
+  );
+
+  $content = '';
+  for ($i = 1; $i <=6; $i++) {
+    $content .= "<h$i>" . "h$i: " . implode(' ', styleguide_list()) . "</h$i>";
+  }
+  $items['headings'] = array(
+    'title' => "Headings",
+    'content' => $content,
+    'group' => t('Common'),
+  );
+
   $items['ul'] = array(
     'title' => t('Unordered list'),
     'theme' => 'item_list',
@@ -90,39 +125,62 @@ function styleguide_styleguide() {
     'group' => t('Lists'),
   );
   $items['table'] = array(
-    'title' => t('Table'),
+    'title' => t('Basic table'),
     'theme' => 'table',
-    'variables' => array('caption' => styleguide_word(3), 'header' => styleguide_header(), 'rows' => styleguide_rows()),
+    'variables' => array('caption' => t('This is a table caption.'), 'header' => styleguide_header(), 'rows' => styleguide_rows()),
     'group' => t('Tables'),
   );
-  $items['blockquote'] = array(
-    'title' => t('Blockquote'),
-    'content' => styleguide_paragraph(1) . '<blockquote>' . styleguide_paragraph(1) . '</blockquote>' . styleguide_paragraph(1),
-    'group' => t('Text'),
+  $items['tablesort'] = array(
+    'title' => t('Sortable table'),
+    'theme' => 'table',
+    'variables' => array('header' => styleguide_sortable_header(), 'rows' => styleguide_sortable_rows()),
+    'group' => t('Tables'),
   );
-  $content = '';
-  for ($i = 1; $i <=6; $i++) {
-    $content .= "<h$i>" . "h$i: " . implode(' ', styleguide_list()) . "</h$i>";
-  }
-  $items['headings'] = array(
-    'title' => "Headings",
-    'content' => $content,
-    'group' => t('Text'),
+  $items['tabledrag'] = array(
+    'title' => t('Draggable table'),
+    'theme' => 'table',
+    'variables' => array('header' => styleguide_header(), 'rows' => styleguide_draggable_rows(), 'attributes' => array('id' => 'tabledrag-example'), 'sticky' => FALSE),
+    'group' => t('Tables'),
   );
-  $messages = array('status', 'warning', 'error');
-  foreach ($messages as $message) {
-    $items[$message . '-message'] = array(
-      'title' => ucwords($message) . ' message',
-      'content' => '<div class="messages ' . $message . '"><h2 class="element-invisible">Status message</h2>' . styleguide_sentence() . '</div>',
-    );
-  }
+  backdrop_add_tabledrag('tabledrag-example', 'order', 'sibling', 'example-weight');
+
+  // Simulate real-life messages.
+  $messages = array(
+    'status' => array(
+      t('Every cache cleared.'),
+      t('Page <em>About us</em> has been created.'),
+      t('The configuration options have been saved.'),
+    ),
+    'warning' => array(
+      t('The site is now in maintenance mode. Only users with the "Access site in maintenance mode" permission will be able to access the site.'),
+    ),
+    'error' => array(
+      t('You are not authorized to post comments.'),
+      t('Cron run failed.'),
+    ),
+  );
+  $items['status-message'] = array(
+    'title' => t('Status message'),
+    'content' => '<div class="messages status"><h2 class="element-invisible">Status message</h2>' . theme('item_list', array('items' => $messages['status'])) . '</div>',
+    'group' => t('Messages'),
+  );
+  $items['warning-message'] = array(
+    'title' => t('Warning message'),
+    'content' => '<div class="messages warning"><h2 class="element-invisible">Status message</h2>' . $messages['warning'][0] . '</div>',
+    'group' => t('Messages'),
+  );
+  $items['error-message'] = array(
+    'title' => t('Error message'),
+    'content' => '<div class="messages error"><h2 class="element-invisible">Status message</h2>' . theme('item_list', array('items' => $messages['error'])) . '</div>',
+    'group' => t('Messages'),
+  );
+
   // Form elements.
   $fake = $form_state = array();
   $elements = styleguide_form($fake, $form_state);
   $basic = array();
   $fieldsets = array();
   $tabs = array();
-  $markup = array();
   foreach (element_children($elements) as $key) {
     if (!isset($elements[$key]['#type']) || $elements[$key]['#type'] == 'item') {
       $markup[] = $key;
@@ -134,57 +192,45 @@ function styleguide_styleguide() {
       $tabs[] = $key;
     }
     // We skip these.
-    elseif (in_array($elements[$key]['#type'], array('button', 'actions', 'submit', 'dropbutton', 'image_button'))) {
+    elseif (in_array($elements[$key]['#type'], array('actions', 'submit', 'dropbutton', 'image_button'))) {
       $buttons[] = $key;
     }
     else {
       $basic[] = $key;
     }
   }
+
   $items['form'] = array(
-    'title' => t('Forms, basic'),
+    'title' => t('Form elements'),
     'content' => backdrop_get_form('styleguide_form', $basic),
     'group' => t('Forms'),
   );
-  $items['form-submit'] = array(
-    'title' => t('Forms, actions'),
+  $items['form-actions'] = array(
+    'title' => t('Buttons / Actions'),
     'content' => backdrop_get_form('styleguide_form', array('actions')),
     'group' => t('Forms'),
   );
-  $items['form-button'] = array(
-    'title' => t('Forms, button'),
-    'content' => backdrop_get_form('styleguide_form', array('button')),
-    'group' => t('Forms'),
-  );
-  $items['form-image-button'] = array(
-    'title' => t('Forms, image button'),
-    'content' => backdrop_get_form('styleguide_form', array('image_button')),
-    'group' => t('Forms'),
-  );
-  $items['dropbutton'] = array(
-    'title' => t('Forms, dropbutton'),
-    'content' => backdrop_get_form('styleguide_form', array('dropbutton')),
-    'group' => t('Forms'),
-  );
-  $items['form-markup'] = array(
-    'title' => t('Forms, markup'),
-    'content' => backdrop_get_form('styleguide_form', $markup),
-    'group' => t('Forms'),
-  );
   $items['form-fieldsets'] = array(
-    'title' => t('Forms, fieldsets'),
+    'title' => t('Fieldsets'),
     'content' => backdrop_get_form('styleguide_form', $fieldsets),
     'group' => t('Forms'),
   );
   $items['form-vertical-tabs'] = array(
-    'title' => t('Forms, vertical tabs'),
+    'title' => t('Vertical tabs'),
     'content' => backdrop_get_form('styleguide_form', $tabs),
     'group' => t('Forms'),
   );
   $items['confirm_form'] = array(
     'title' => t('Confirm form'),
     'content' => backdrop_get_form('confirm_form', array('path' => '')),
-    'group' => t('System')
+    'group' => t('Forms')
+  );
+
+  // Use alternative item name to avoid conflict with main breadcrumb.
+  $items['styleguide_breadcrumb'] = array(
+    'title' => t('Breadcrumb'),
+    'content' => theme('breadcrumb', array('breadcrumb' => backdrop_get_breadcrumb())),
+    'group' => t('User interface')
   );
   $items['pager'] = array(
     'title' => t('Pager'),
@@ -196,52 +242,36 @@ function styleguide_styleguide() {
     'content' => theme('progress_bar', array('percent' => 57, 'message' => styleguide_sentence(2))),
     'group' => t('User interface')
   );
+  $items['dropbutton'] = array(
+    'title' => t('Dropbutton'),
+    'content' => backdrop_get_form('styleguide_form', array('dropbutton')),
+    'group' => t('User interface'),
+  );
   $items['dialog'] = array(
     'title' => t('Dialog'),
     'content' => styleguide_dialog(),
     'group' => t('User interface'),
   );
-  // Use alternative item name to avoid conflict with main breadcrumb.
-  $items['styleguide_breadcrumb'] = array(
-    'title' => t('Breadcrumb'),
-    'content' => theme('breadcrumb', array('breadcrumb' => backdrop_get_breadcrumb())),
-    'group' => t('User interface')
-  );
-  $items['link'] = array(
-    'title' => t('Link'),
-    'content' => l(styleguide_word(2), $current_url),
-    'group' => t('Link')
-  );
-  $items['links'] = array(
-    'title' => t('Links'),
-    'content' => theme('links', array('links' => styleguide_links($current_url))),
-    'group' => t('Link')
-  );
+
   $items['mark_new'] = array(
     'title' => t('Mark, new'),
     'content' => l(styleguide_sentence(), $current_url) . theme('mark', array('type' => MARK_NEW)),
-    'group' => t('Link')
+    'group' => t('Misc')
   );
   $items['mark_updated'] = array(
     'title' => t('Mark, updated'),
     'content' => l(styleguide_sentence(), $current_url) . theme('mark', array('type' => MARK_UPDATED)),
-    'group' => t('Link')
+    'group' => t('Misc')
   );
   $items['more_help_link'] = array(
     'title' => t('More help link'),
     'content' => styleguide_paragraph(1) . theme('more_help_link', array('url' => $current_url)),
-    'group' => t('Link')
+    'group' => t('Misc')
   );
   $items['more_link'] = array(
     'title' => t('More link'),
     'content' => styleguide_paragraph(1) . theme('more_link', array('url' => $current_url, 'title' => styleguide_sentence())),
-    'group' => t('Link')
-  );
-  $items['monospace'] = array(
-    'title' => t('Monospace'),
-    'content' => styleguide_lorem(1, 0, 'mixed', FALSE),
-    'group' => t('Text'),
-    'tag' => 'code',
+    'group' => t('Misc')
   );
 
   return $items;

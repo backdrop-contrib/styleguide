@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Implements hook_styleguide().
  */
@@ -71,5 +70,6 @@ function book_styleguide() {
     )),
     'group' => t('Book'),
   );
+
   return $items;
 }

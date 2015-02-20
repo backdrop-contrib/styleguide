@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Style Guide plugin file for the Image module.
@@ -9,22 +8,15 @@
  * Implements hook_styleguide().
  */
 function image_styleguide() {
+  $sample_image = backdrop_get_path('module', 'image') . '/images/sample.png';
   $items = array();
-
-  // Shortcut this.
-  return $items;
-
-  // Get the sample file provided by the module.
-  if (file_destination('public://styleguide-preview.jpg', FILE_EXISTS_ERROR) !== FALSE) {
-    // Move the image so that styles may be applied.
-    file_unmanaged_copy(styleguide_image('vertical'), 'public://styleguide-preview.jpg', FILE_EXISTS_ERROR);
-  }
 
   // Iterate through the image styles on the site.
   foreach (image_style_options(FALSE) as $stylename => $style) {
+    $new = image_style_path($stylename, $sample_image);
     $items['image_' . $stylename] = array(
       'title' => t('Image style, @stylename', array('@stylename' => $stylename)),
-      'content' => theme('image_style', array('uri' => 'public://styleguide-preview.jpg', 'style_name' => $stylename)),
+      'content' => theme('image', array('uri' => $new)),
       'group' => t('Media')
     );
   }
