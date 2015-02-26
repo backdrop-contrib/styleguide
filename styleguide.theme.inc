@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- *   Theme file for Style Guide module.
+ * Theme functions for Style Guide module.
  */
 
 /**
@@ -14,16 +13,12 @@
  */
 function theme_styleguide_header($variables) {
   $theme_info = $variables['theme_info'];
+
   $output = '<h2>' . t('Showing style guide for %theme', array('%theme' => $theme_info['name'])) . '</h2>';
   if (isset($theme_info['description'])) {
     $output .= '<p>' . $theme_info['description'] . '</p>';
   }
-  $output .= '<h2 class="styleguide">'. t('Styleguide element entries') .'</h2>';
-  $output .= '<p class="styleguide-description">' . t('Optional item description.') . '</p>';
-  $output .= '<div class="styleguide">';
-  $output .= t('The header area indicates the style element being displayed. The horizontal rules indicate the top and bottom baselines of the rendered element.');
-  $output .= '</div>';
-  $output .= '<div class="break"><br /></div>';
+
   return $output;
 }
 
@@ -43,8 +38,8 @@ function theme_styleguide_item($variables) {
   $key = $variables['key'];
   $item = $variables['item'];
   $content = $variables['content'];
-  $output = '';
-  $output .= "<a name=\"$key\"></a>";
+
+  $output  = "<a name=\"$key\"></a>";
   $output .= '<h2 class="styleguide">'. $item['title'] .'</h2>';
   if (!empty($item['description'])) {
     $output .= '<p class="styleguide-description">';
@@ -54,6 +49,7 @@ function theme_styleguide_item($variables) {
   $output .= '<div class="styleguide">';
   $output .= $content;
   $output .= '</div>';
+
   return $output;
 }
 
@@ -67,11 +63,10 @@ function theme_styleguide_item($variables) {
  *   -- 'items' the list of links.
  */
 function theme_styleguide_links($variables) {
-  // Close the header.
-  $output = '<div id="styleguide-header" class="styleguide">';
+  $output  = '<div id="styleguide-header" class="styleguide clearfix">';
   $output .= $variables['items'];
-  $output .= '<div class="break"><br /></div>';
   $output .= '</div>';
+
   return $output;
 }
 

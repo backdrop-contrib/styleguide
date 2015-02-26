@@ -1,24 +1,8 @@
 <?php
-
 /**
- * Implements hook_help().
+ * @file
+ * Generates a theme style guide for proofing common elements.
  */
-function styleguide_help($path, $arg) {
-  $output = '';
-  switch ($path) {
-    // Main module help for the Style guide module.
-    case 'admin/help#styleguide':
-      $output .= '<p>' . t('Provides a visual testing page for Drupal themes. Quickly compare the display of common elements across your themes, and verify that your new theme addresses all common style elements.') . '</p>';
-
-      $output .= '<p>' . t('The Style Guide module creates a preview page for displaying common theme elements in all active themes for your Drupal site. The module comes with previews for common HTML elements, such as tables, forms, links and lists.') . '</p>';
-
-      $output .= '<p>' . t('You can preview the styleguide at !url', array('!url' => l(t('admin/appearance/styleguide'), "admin/appearance/styleguide"))) . '</p>';
-
-      break;
-  }
-
-  return $output;
-}
 
 /**
  * Implements hook_menu().
@@ -162,10 +146,12 @@ function styleguide_page($theme = NULL) {
     $groups[$item['group']][$key] = $item;
   }
   //ksort($groups);
+
   // Create a navigation header.
   $header = array();
   $head = '';
   $content = '';
+
   // Process the elements, by group.
   foreach ($groups as $group => $elements) {
     foreach ($elements as $key => $item) {
@@ -201,12 +187,14 @@ function styleguide_page($theme = NULL) {
     }
     $head .= theme('item_list', array('items' => $header[$group], 'title' => $group));
   }
+  
   // Return the page.
   $build = array();
   $build['header']['#markup'] = theme('styleguide_header', array('theme_info' => $theme_info));
   $build['navigation']['#markup']= theme('styleguide_links', array('items' => $head));
   $build['content']['#markup'] = theme('styleguide_content', array('content' => $content));
   $build['content']['#attached']['css'][] = $path . '/styleguide.css';
+
   return $build;
 }
 
@@ -260,6 +248,7 @@ function styleguide_word($size = 1, $case = 'strtolower') {
  *
  * @param $size
  *   The size of the list to return.
+ *
  * @return
  *   An array of header elements.
  */
@@ -273,6 +262,7 @@ function styleguide_header($size = 5) {
  *
  * @param $size
  *   The size of the list to return.
+ *
  * @return
  *   An array of row elements.
  */
@@ -281,6 +271,80 @@ function styleguide_rows($size = 5) {
   for ($i = 0; $i < $size; $i++) {
     $rows[] = styleguide_list($size);
   }
+
+  return $rows;
+}
+
+/**
+ * Return a table header array suitable for sorting..
+ *
+ * @return
+ *   An array of header elements.
+ */
+function styleguide_sortable_header() {
+  $header = array(
+    array('data' => t('Name'), 'field' => 'system.name'),
+    array('data' => t('Type'), 'field' => 'system.type'),
+    array('data' => t('Status'), 'field' => 'system.status'),
+    array('data' => t('Schema version'), 'field' => 'system.schema_version'),
+    array('data' => t('Weight'), 'field' => 'system.weight'),
+  );
+
+  return $header;
+}
+
+/**
+ * Return a table row array suitable for sorting.
+ *
+ * @return
+ *   An array of row elements.
+ */
+function styleguide_sortable_rows() {
+  $header = styleguide_sortable_header();
+  // Using the TableSort Extender is what tells the the query object that we
+  // are sorting.
+  $query = db_select('system', 'system')
+    ->extend('TableSort');
+  $query->fields('system', array('name', 'type', 'status', 'schema_version', 'weight'));
+  $query->range(0, 5);
+
+  // Don't forget to tell the query object how to find the header information.
+  $result = $query
+    ->orderByHeader($header)
+    ->execute();
+
+  $rows = array();
+  foreach ($result as $row) {
+    $rows[] = array('data' => (array) $row);
+  }
+
+  return $rows;
+}
+
+/**
+ * Return a table row array for dragging.
+ *
+ * @param $size
+ *   The size of the list to return.
+ *
+ * @return
+ *   An array of row elements.
+ */
+function styleguide_draggable_rows($size = 5) {
+  $rows = array();
+  for ($i = 0; $i < $size; $i++) {
+    $data = styleguide_list($size-1);
+    $element = array(
+      '#type' => 'textfield',
+      '#name' => 'weight',
+      '#value' => $i,
+      '#size' => 2,
+      '#attributes' => array('class' => array('example-weight')),
+    );
+    $data['weight'] = array('data' => $element);
+    $rows[] = array('class' => array('draggable'), 'data' => $data);
+  }
+
   return $rows;
 }
 
@@ -576,12 +640,6 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
     '#markup' => styleguide_paragraph(1),
     '#description' => styleguide_sentence(),
   );
-  $form['image_button'] = array(
-    '#type' => 'image_button',
-    '#src' => 'core/misc/message-24-ok.png',
-    '#attributes' => array('height' => 20),
-    '#name' => t('Image button'),
-  );
   $form['actions'] = array(
     '#type' => 'actions',
   );
@@ -599,10 +657,6 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
     '#title' => t('Delete'),
     '#href' => 'delete',
     '#attributes' => array('class' => array('danger')),
-  );
-  $form['button'] = array(
-    '#type' => 'button',
-    '#value' => t('Button'),
   );
 
   $links = array();
@@ -648,8 +702,10 @@ function styleguide_pager($size = 8, $total = 20) {
   global $pager_page_array, $pager_total;
   $pager_page_array[1] = $size;
   $pager_total[1] = $total;
+
   // For some reason, the pager breaks the page title.
   backdrop_set_title('Style guide');
+
   return theme('pager', array('element' => 1));
 }
 
@@ -660,8 +716,7 @@ function styleguide_dialog() {
   backdrop_add_library('system', 'backdrop.dialog');
   backdrop_add_js('jQuery(document).ready(function() { jQuery("#styleguide-dialog").dialog({ title: "Dialog title", position: { within: "#styleguide-dialog-wrapper" }, draggable: false, open: function() { window.scrollTo(0, 0); } }); });', 'inline');
 
-  $output = '';
-  $output .= '<div id="styleguide-dialog-wrapper" style="height: 200px;">';
+  $output  = '<div id="styleguide-dialog-wrapper" style="height: 200px;">';
   $output .= '<div id="styleguide-dialog">' . styleguide_sentence() . '</div>';
   $output .= '</div>';
 
@@ -727,6 +782,32 @@ function styleguide_ul_links() {
 }
 
 /**
+ * Generate a confirm form.
+ */
+function styleguide_confirm_form() {
+  $form['#attributes']['class'][] = 'confirmation';
+  $form['description'] = array('#markup' => t('This action cannot be undone.'));
+  $form['confirm'] = array('#type' => 'hidden', '#value' => 1);
+
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Confirm'),
+  );
+  $form['actions']['cancel'] = array(
+    '#type' => 'link',
+    '#title' => t('Cancel'),
+    '#href' => current_path(),
+  );
+  // By default, render the form using theme_confirm_form().
+  if (!isset($form['#theme'])) {
+    $form['#theme'] = 'confirm_form';
+  }
+
+  return $form;
+}
+
+/**
  * Implements hook_block_info().
  */
 function styleguide_block_info() {
@@ -750,6 +831,7 @@ function styleguide_block_view($delta = '') {
       $block['content'] = styleguide_page($theme_info->name);
       break;
   }
+
   return $block;
 }
 

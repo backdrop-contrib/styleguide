@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Style Guide plugin file for the Filter module.
@@ -31,21 +30,20 @@ function styleguide_filter_tips($long = TRUE) {
 function filter_styleguide() {
   $items = array();
 
-  // Show the form version.
+  // Always show the form version.
   $items['filter_tips'] = array(
     'title' => t('Filter tips, short'),
     'content' => styleguide_filter_tips(FALSE),
-    'group' => t('System')
+    'group' => t('Forms')
   );
 
-  return $items;
-
-  // Show the long version.
+  /* @todo find a better way to display the long version (collapsed fieldset?).
   $items['filter_tips_long'] = array(
     'title' => t('Filter tips, long'),
     'content' => styleguide_filter_tips(TRUE),
-    'group' => t('System')
+    'group' => t('Forms')
   );
+  */
 
   return $items;
 }
