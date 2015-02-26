@@ -103,27 +103,38 @@ function styleguide_styleguide() {
   $items['ul'] = array(
     'title' => t('Unordered list'),
     'theme' => 'item_list',
-    'variables' => array('items' => styleguide_list(), 'type' => 'ul'),
+    'variables' => array('items' => styleguide_list(), 'type' => 'ul', 'title' => styleguide_word(3, 'ucfirst')),
     'group' => t('Lists'),
   );
   $items['ol'] = array(
     'title' => t('Ordered list'),
     'theme' => 'item_list',
-    'variables' => array('items' => styleguide_list(), 'type' => 'ol'),
-    'group' => t('Lists'),
-  );
-  $items['ul_title'] = array(
-    'title' => t('Unordered list, with title'),
-    'theme' => 'item_list',
-    'variables' => array('items' => styleguide_list(), 'type' => 'ul', 'title' => styleguide_word(3, 'ucfirst')),
-    'group' => t('Lists'),
-  );
-  $items['ol_title'] = array(
-    'title' => t('Ordered list, with title'),
-    'theme' => 'item_list',
     'variables' => array('items' => styleguide_list(), 'type' => 'ol', 'title' => styleguide_word(3, 'ucfirst')),
     'group' => t('Lists'),
   );
+
+  $links = array(
+    '#theme' => 'links',
+    '#links' => styleguide_links('<front>'),
+    '#attributes' => array('class' => array('links')),
+  );
+  $items['links'] = array(
+    'title' => t('Links'),
+    'content' => backdrop_render($links),
+    'group' => t('Lists'),
+  );
+
+  $links_inline = array(
+    '#theme' => 'links',
+    '#links' => styleguide_links('<front>'),
+    '#attributes' => array('class' => array('links', 'inline')),
+  );
+  $items['links-inline'] = array(
+    'title' => t('Links - inline'),
+    'content' => backdrop_render($links_inline),
+    'group' => t('Lists'),
+  );
+
   $items['table'] = array(
     'title' => t('Basic table'),
     'theme' => 'table',
