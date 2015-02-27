@@ -17,14 +17,16 @@ function search_styleguide() {
     'content' => backdrop_get_form('search_block_form'),
     'group' => t('Search')
   );
+
   $items['search_no_results'] = array(
     'title' => t('Search, no results'),
     'content' => theme('search_results', array('results' => array())),
     'group' => t('Search')
   );
+
   // Generate some sample results.
   $results = array();
-  for ($i = 0; $i < 5; $i++) {
+  for ($i = 0; $i < 4; $i++) {
     $node = array(
       'link' => '#',
       'title' => styleguide_sentence(),
