@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Style Guide plugin file for the Comment module.
+ */
 
 /**
  * Implements hook_styleguide().
@@ -15,9 +19,10 @@ function comment_styleguide() {
   $authenticated_post_comments = TRUE;
   $items['comment_post_forbidden'] = array(
     'title' => t('Comment post forbidden'),
-    'content' => theme('comment_post_forbidden', array('node' => (object) array('nid' => 0, 'type' => '-styleguide-'))),
+    'content' => theme('comment_post_forbidden', array('node' => (object) array('nid' => 0, 'type' => 'article'))),
     'group' => t('Comment'),
   );
+
   $user = $account;
   config_set('system.core', 'user_register', $user_register);
 
@@ -47,9 +52,10 @@ function comment_styleguide() {
       'picture' => 0,
       'new' => 0,
     )),
-    '#node' => new Node(array('nid' => 1, 'type' => 'styleguide')),
+    '#node' => new Node(array('nid' => 1, 'type' => 'article')),
   );
   $render['body'] = array('#markup' => styleguide_paragraph(2));
+
   $items['comment'] = array(
     'title' => t('Comment'),
     'content' => backdrop_render($render),

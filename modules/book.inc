@@ -1,5 +1,10 @@
 <?php
 /**
+ * @file
+ * Style Guide plugin file for the Book module.
+ */
+
+/**
  * Implements hook_styleguide().
  */
 function book_styleguide() {

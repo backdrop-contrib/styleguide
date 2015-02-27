@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Style Guide plugin file for the Search module.
