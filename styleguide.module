@@ -46,7 +46,7 @@ function styleguide_menu() {
       'type' => MENU_LOCAL_TASK,
       'access callback' => 'styleguide_access_check',
       'access arguments' => array($theme),
-      'weight' => -10,
+      'weight' => 0,
     );
     $items['admin/appearance/styleguide/' . $theme->name . '/second'] = array(
       'title' => 'Second',
@@ -54,7 +54,7 @@ function styleguide_menu() {
       'type' => MENU_LOCAL_TASK,
       'access callback' => 'styleguide_access_check',
       'access arguments' => array($theme),
-      'weight' => -10,
+      'weight' => 10,
     );
     $items['admin/appearance/styleguide/' . $theme->name . '/third'] = array(
       'title' => 'Third',
@@ -62,7 +62,7 @@ function styleguide_menu() {
       'type' => MENU_LOCAL_TASK,
       'access callback' => 'styleguide_access_check',
       'access arguments' => array($theme),
-      'weight' => -10,
+      'weight' => 20,
     );
     $items['admin/appearance/styleguide/' . $theme->name . '/fourth'] = array(
       'title' => 'Fourth',
@@ -70,7 +70,7 @@ function styleguide_menu() {
       'type' => MENU_LOCAL_TASK,
       'access callback' => 'styleguide_access_check',
       'access arguments' => array($theme),
-      'weight' => -10,
+      'weight' => 30,
     );
   }
 
