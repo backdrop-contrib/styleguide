@@ -30,7 +30,50 @@ function styleguide_menu() {
       'theme callback' => '_styleguide_page_theme',
       'theme arguments' => array($theme->name),
     );
+
+    // Add 4 fake menu items so secondary tabs can be styled
+    $items['admin/appearance/styleguide/' . $theme->name . '/default'] = array(
+      'title' => 'Default',
+      'page callback' => 'styleguide_page',
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+      'access callback' => 'styleguide_access_check',
+      'access arguments' => array($theme),
+      'weight' => -10,
+    );
+    $items['admin/appearance/styleguide/' . $theme->name . '/first'] = array(
+      'title' => 'First',
+      'page callback' => 'styleguide_page',
+      'type' => MENU_LOCAL_TASK,
+      'access callback' => 'styleguide_access_check',
+      'access arguments' => array($theme),
+      'weight' => -10,
+    );
+    $items['admin/appearance/styleguide/' . $theme->name . '/second'] = array(
+      'title' => 'Second',
+      'page callback' => 'styleguide_page',
+      'type' => MENU_LOCAL_TASK,
+      'access callback' => 'styleguide_access_check',
+      'access arguments' => array($theme),
+      'weight' => -10,
+    );
+    $items['admin/appearance/styleguide/' . $theme->name . '/third'] = array(
+      'title' => 'Third',
+      'page callback' => 'styleguide_page',
+      'type' => MENU_LOCAL_TASK,
+      'access callback' => 'styleguide_access_check',
+      'access arguments' => array($theme),
+      'weight' => -10,
+    );
+    $items['admin/appearance/styleguide/' . $theme->name . '/fourth'] = array(
+      'title' => 'Fourth',
+      'page callback' => 'styleguide_page',
+      'type' => MENU_LOCAL_TASK,
+      'access callback' => 'styleguide_access_check',
+      'access arguments' => array($theme),
+      'weight' => -10,
+    );
   }
+
   return $items;
 }
 
@@ -187,7 +230,7 @@ function styleguide_page($theme = NULL) {
     }
     $head .= theme('item_list', array('items' => $header[$group], 'title' => $group));
   }
-  
+
   // Return the page.
   $build = array();
   $build['header']['#markup'] = theme('styleguide_header', array('theme_info' => $theme_info));
@@ -755,7 +798,7 @@ function styleguide_links($url, $size = 4) {
 function styleguide_menu_item($url) {
   $menu_item = array(
     '#title' => styleguide_sentence(),
-    '#href' => $url, 
+    '#href' => $url,
     '#localized_options' => array(),
     '#attributes' => array(),
     '#below' => FALSE,
