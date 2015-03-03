@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Register a style guide element for display.
  *
