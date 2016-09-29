@@ -19,7 +19,7 @@ function comment_styleguide() {
   $authenticated_post_comments = TRUE;
   $items['comment_post_forbidden'] = array(
     'title' => t('Comment post forbidden'),
-    'content' => theme('comment_post_forbidden', array('node' => (object) array('nid' => 0, 'type' => 'article'))),
+    'content' => theme('comment_post_forbidden', array('node' => (object) array('nid' => 0, 'type' => 'post'))),
     'group' => t('Comment'),
   );
 
@@ -52,7 +52,7 @@ function comment_styleguide() {
       'picture' => 0,
       'new' => 0,
     )),
-    '#node' => new Node(array('nid' => 1, 'type' => 'article')),
+    '#node' => new Node(array('nid' => 1, 'type' => 'post')),
   );
   $render['body'] = array('#markup' => styleguide_paragraph(2));
 
