@@ -26,8 +26,10 @@ function comment_styleguide() {
   $user = $account;
   config_set('system.core', 'user_register', $user_register);
 
-  $name = styleguide_word(2);
   $render = array(
+    'body' => array(
+      '#markup' => styleguide_paragraph(2),
+    ),
     '#theme' => 'comment',
     '#comment' => new Comment(array(
       'cid' => 0,
@@ -40,7 +42,7 @@ function comment_styleguide() {
       'changed' => time(),
       'status' => 1,
       'thread' => '01/',
-      'name' => $name,
+      'name' => styleguide_word(2),
       'mail' => '',
       'homepage' => 'http://drupal.org/project/styleguide',
       'language' => 'und',
@@ -52,9 +54,8 @@ function comment_styleguide() {
       'picture' => 0,
       'new' => 0,
     )),
-    '#node' => new Node(array('nid' => 1, 'type' => 'post')),
+    '#node' => new Node(array('nid' => 3, 'type' => 'post')),
   );
-  $render['body'] = array('#markup' => styleguide_paragraph(2));
 
   $items['comment'] = array(
     'title' => t('Comment'),
