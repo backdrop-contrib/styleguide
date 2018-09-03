@@ -159,20 +159,28 @@ function styleguide_styleguide() {
   $messages = array(
     'status' => array(
       t('Every cache cleared.'),
-      t('Page <em>About us</em> has been created.'),
+      t('Page <em>About us</em> has been created. And this is <a href="#">a link</a>.'),
       t('The configuration options have been saved.'),
     ),
+    'info' => array(
+      t('The site is telling you something useful. And this is <a href="#">a link</a>.'),
+    ),
     'warning' => array(
-      t('The site is now in maintenance mode. Only users with the "Access site in maintenance mode" permission will be able to access the site.'),
+      t('The site is now in maintenance mode. Only users with the "Access site in maintenance mode" permission will be able to access the site. And this is <a href="#">a link</a>.'),
     ),
     'error' => array(
       t('You are not authorized to post comments.'),
-      t('Cron run failed.'),
+      t('Cron run failed. And this is <a href="#">a link</a>.'),
     ),
   );
   $items['status-message'] = array(
     'title' => t('Status message'),
     'content' => '<div class="messages status"><h2 class="element-invisible">Status message</h2>' . theme('item_list', array('items' => $messages['status'])) . '</div>',
+    'group' => t('Messages'),
+  );
+  $items['info-message'] = array(
+    'title' => t('Info message'),
+    'content' => '<div class="messages info"><h2 class="element-invisible">Status message</h2>' . $messages['info'][0] . '</div>',
     'group' => t('Messages'),
   );
   $items['warning-message'] = array(
