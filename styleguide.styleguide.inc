@@ -84,7 +84,7 @@ function styleguide_styleguide() {
     'content' => styleguide_paragraph(1) . '<blockquote>' . styleguide_paragraph(1) . '</blockquote>' . styleguide_paragraph(1),
     'group' => t('Common'),
   );
-  $items['Code block (monospace)'] = array(
+  $items['monospace'] = array(
     'title' => t('Monospace'),
     'content' => styleguide_paragraph(1) . ' <pre><code>' . styleguide_paragraph(1) . '</code></pre> ' . styleguide_paragraph(1) . '.',
     'group' => t('Common'),
