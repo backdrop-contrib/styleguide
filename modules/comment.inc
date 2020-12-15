@@ -44,7 +44,7 @@ function comment_styleguide() {
       'thread' => '01/',
       'name' => styleguide_word(2),
       'mail' => '',
-      'homepage' => 'http://drupal.org/project/styleguide',
+      'homepage' => 'https://backdropcms.org/project/styleguide',
       'language' => 'und',
       'node_type' => 'comment_node_styleguide',
       'registered_name' => '',
@@ -55,6 +55,8 @@ function comment_styleguide() {
       'new' => 0,
     )),
     '#node' => new Node(array('nid' => 3, 'type' => 'post')),
+    '#view_mode' => NULL,
+    '#bundle' => NULL,
   );
 
   $items['comment'] = array(
