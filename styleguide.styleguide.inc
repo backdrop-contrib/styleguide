@@ -100,6 +100,22 @@ function styleguide_styleguide() {
     'group' => t('Common'),
   );
 
+  $link_button = array(
+    '#theme' => 'link',
+    '#text' => styleguide_word(2, 'ucfirst'),
+    '#path' => '<front>',
+    '#options' => array(
+      'attributes' => array(
+        'class' => array('button'),
+      ),
+    ),
+  );
+  $items['link-button'] = array(
+    'title' => t('Link - button'),
+    'content' => backdrop_render($link_button),
+    'group' => t('Common'),
+  );
+
   $items['ul'] = array(
     'title' => t('Unordered list'),
     'theme' => 'item_list',
