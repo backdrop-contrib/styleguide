@@ -15,13 +15,6 @@ Installation
 - Visit the style guide for each theme under Administration > Appearance >
   Style Guide (admin/appearance/styleguide).
 
-
-Documentation
--------------
-
-Additional documentation is located in the Wiki:
-https://github.com/backdrop-contrib/styleguide/wiki/Documentation
-
 Issues
 ------
 
