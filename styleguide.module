@@ -591,8 +591,15 @@ function styleguide_form($form, &$form_state, $form_keys = array()) {
   $form['textarea'] = array(
     '#type' => 'textarea',
     '#title' => t('Textarea'),
-    '#default_value' => styleguide_paragraph(),
+    '#default_value' => styleguide_lorem(),
     '#description' => styleguide_sentence(),
+  );
+  $form['text_format'] = array(
+    '#type' => 'text_format',
+    '#title' => t('Text format'),
+    '#default_value' => styleguide_lorem(),
+    '#description' => styleguide_sentence(),
+    '$format' => NULL,
   );
   $form['date'] = array(
     '#type' => 'date',
