@@ -178,37 +178,33 @@ function styleguide_styleguide() {
       t('Page <em>About us</em> has been created. And this is <a href="#">a link</a>.'),
       t('The configuration options have been saved.'),
     ),
-    'info' => array(
-      t('The site is telling you something useful. And this is <a href="#">a link</a>.'),
-    ),
-    'warning' => array(
-      t('The site is now in maintenance mode. Only users with the "Access site in maintenance mode" permission will be able to access the site. And this is <a href="#">a link</a>.'),
-    ),
+    'info' => t('The site is telling you something useful. And this is <a href="#">a link</a>.'),
+    'warning' => t('The site is now in maintenance mode. Only users with the "Access site in maintenance mode" permission will be able to access the site. And this is <a href="#">a link</a>.'),
     'error' => array(
       t('You are not authorized to post comments.'),
       t('Cron run failed. And this is <a href="#">a link</a>.'),
     ),
   );
-  $items['status-message'] = array(
-    'title' => t('Status message'),
-    'content' => '<div class="messages status"><h2 class="element-invisible">Status message</h2>' . theme('item_list', array('items' => $messages['status'])) . '</div>',
-    'group' => t('Messages'),
-  );
-  $items['info-message'] = array(
-    'title' => t('Info message'),
-    'content' => '<div class="messages info"><h2 class="element-invisible">Status message</h2>' . $messages['info'][0] . '</div>',
-    'group' => t('Messages'),
-  );
-  $items['warning-message'] = array(
-    'title' => t('Warning message'),
-    'content' => '<div class="messages warning"><h2 class="element-invisible">Status message</h2>' . $messages['warning'][0] . '</div>',
-    'group' => t('Messages'),
-  );
-  $items['error-message'] = array(
-    'title' => t('Error message'),
-    'content' => '<div class="messages error"><h2 class="element-invisible">Status message</h2>' . theme('item_list', array('items' => $messages['error'])) . '</div>',
-    'group' => t('Messages'),
-  );
+  foreach ($messages as $type => $message) {
+    $content = '<div class="messages ' . $type . '"><h2 class="element-invisible">' . backdrop_ucfirst($type) . ' message</h2>';
+    if (is_array($message)) {
+      $content .= '<ul>';
+      foreach ($message as $text) {
+        $content .= '<li>' . $text . '</li>';
+      }
+      $content .= '</ul>';
+    }
+    else {
+      $content .= $message;
+    }
+    $content .= '</div>';
+
+    $items[$type . '-message'] = array(
+      'title' => t('@type message', array('@type' => backdrop_ucfirst($type))),
+      'content' => $content,
+      'group' => t('Messages'),
+    );
+  }
 
   // Form elements.
   $fake = $form_state = array();
