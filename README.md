@@ -27,7 +27,6 @@ Current Maintainers
 - Nate Haug (https://github.com/quicksketch)
 - Jen Lampton (https://github.com/jenlampton)
 - Wes Ruvalcaba (https://github.com/wesruv)
-- Peter Anderson (https://github.com/BWPanda)
 
 License
 -------
